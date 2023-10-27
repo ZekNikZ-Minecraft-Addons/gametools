@@ -1,0 +1,5 @@
+name: gametools
+version: '${version}'
+main: io.zkz.mc.gametools.Gametools
+api-version: 1.19
+authors: [ZekNikZ]
