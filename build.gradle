@@ -1,12 +1,15 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id "io.papermc.paperweight.userdev" version "1.5.5"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group = 'io.zkz.mc'
 version = '6.0-SNAPSHOT'
 
 ext {
+    paperVersion = '1.20.2-R0.1-SNAPSHOT'
     protocolLibVersion = '5.1.0'
 }
 
@@ -14,6 +17,7 @@ repositories {
     mavenCentral()
     maven { url = "https://repo.papermc.io/repository/maven-public/" }
     maven { url = "https://oss.sonatype.org/content/groups/public/" }
+    maven { url = "https://repo.papermc.io/repository/maven-public/" }
     maven { url = "https://repo.dmulloy2.net/repository/public/" }
 }
 
@@ -21,12 +25,12 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'org.jetbrains.kotlin:kotlin-reflect:1.8.10'
 
-    compileOnly "io.papermc.paper:paper-api:1.20.1-R0.1-SNAPSHOT"
+    paperweightDevelopmentBundle("io.papermc.paper:dev-bundle:${paperVersion}")
 
     implementation 'org.reflections:reflections:0.10.2'
 
-    implementation "cloud.commandframework:cloud-paper:1.8.3"
-    implementation "cloud.commandframework:cloud-minecraft-extras:1.8.3"
+    implementation "cloud.commandframework:cloud-paper:1.8.4"
+    implementation "cloud.commandframework:cloud-minecraft-extras:1.8.4"
 
     compileOnly "com.comphenix.protocol:ProtocolLib:${protocolLibVersion}"
 }

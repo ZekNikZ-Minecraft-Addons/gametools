@@ -1,12 +1,5 @@
 package io.zkz.mc.gametools.injection
 
-import kotlin.reflect.KClass
-
-data class InjectionKey(
-    val type: KClass<*>,
-    val key: String
-)
-
 data class InjectionNode<T : Any>(
     val key: InjectionKey,
     val container: InjectionContainer,

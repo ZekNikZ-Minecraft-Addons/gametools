@@ -7,7 +7,7 @@ import cloud.commandframework.extra.confirmation.CommandConfirmationManager
 import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler
 import cloud.commandframework.minecraft.extras.MinecraftHelp
 import cloud.commandframework.paper.PaperCommandManager
-import io.zkz.mc.gametools.command.CommandRegistry
+import io.zkz.mc.gametools.command.CommandRegistryConnector
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.InjectionKey
@@ -60,7 +60,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         injectionContainer.getAllOfType<PluginService<T>>().forEach(PluginService<T>::initialize)
 
         // Register commands
-        val commandRegistry = CommandRegistry(this)
+        val commandRegistry = CommandRegistryConnector(this)
         logger.info("Initializing commands... ")
         findAndRegisterCommands(classLoader, this, commandRegistry)
 

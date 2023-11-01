@@ -1,7 +1,7 @@
 package io.zkz.mc.gametools.reflection
 
 import io.zkz.mc.gametools.GTPlugin
-import io.zkz.mc.gametools.command.CommandRegistry
+import io.zkz.mc.gametools.command.CommandRegistryConnector
 import org.bukkit.permissions.Permission
 import org.reflections.ReflectionUtils
 import org.reflections.Reflections
@@ -16,7 +16,7 @@ import java.lang.reflect.Modifier
 import java.util.function.Consumer
 import java.util.logging.Level
 
-fun findAndRegisterCommands(loader: ClassLoader, plugin: GTPlugin<*>, registry: CommandRegistry) {
+fun findAndRegisterCommands(loader: ClassLoader, plugin: GTPlugin<*>, registry: CommandRegistryConnector) {
     val packageName = plugin.javaClass.packageName
 
     val reflections = Reflections(
@@ -30,7 +30,7 @@ fun findAndRegisterCommands(loader: ClassLoader, plugin: GTPlugin<*>, registry: 
             .`as`(Method::class.java)
             .filter(
                 ReflectionUtilsPredicates.withReturnType(Void.TYPE)
-                    .and(ReflectionUtilsPredicates.withParameters(CommandRegistry::class.java))
+                    .and(ReflectionUtilsPredicates.withParameters(CommandRegistryConnector::class.java))
                     .and(ReflectionUtilsPredicates.withStatic())
             )
     ).forEach(Consumer forEach@{ method: Method ->

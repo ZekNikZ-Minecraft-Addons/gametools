@@ -10,7 +10,7 @@ data class GTColor(val rgb: Int) {
     val awt = java.awt.Color(rgb)
 
     companion object {
-        internal val COLORS: MutableMap<String, GTColor> = HashMap()
+        val COLORS: MutableMap<String, GTColor> = HashMap()
 
         private fun color(name: String, rgb: Int): GTColor? {
             COLORS[name] = GTColor(rgb)
@@ -35,5 +35,8 @@ data class GTColor(val rgb: Int) {
         val ALERT_SUCCESS = color("alert_success", 0x17FF32)
         val ALERT_ACCENT = color("alert_accent", 0xFFBB00)
         val ALERT_WARNING = color("alert_warning", 0xFC1B0F)
+
+        val ALL: Set<GTColor>
+            get() = COLORS.values.toSet()
     }
 }
