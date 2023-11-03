@@ -1,5 +1,0 @@
-name: gametools
-version: '6.0-SNAPSHOT'
-main: io.zkz.mc.gametools.Gametools
-api-version: 1.19
-authors: [ZekNikZ]
