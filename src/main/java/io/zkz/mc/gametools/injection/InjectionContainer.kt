@@ -15,7 +15,8 @@ class InjectionContainer {
     fun <T : Any> get(type: KClass<T>, key: String = ""): T {
         val component = nodes[InjectionKey(type, key)]
         if (component != null && component.key.type == type) {
-            @Suppress("UNCHECKED_CAST") return component.value as T
+            @Suppress("UNCHECKED_CAST")
+            return component.value as T
         }
         throw IllegalStateException("Component of type ${type.qualifiedName} is not injectable")
     }
@@ -53,7 +54,7 @@ class InjectionContainer {
         nodes[key] = InjectionNode(
             key,
             this,
-            builder,
+            builder
         )
     }
 
@@ -68,7 +69,7 @@ class InjectionContainer {
 
         nodes[key] = InjectionNode(
             key,
-            this,
+            this
         ) { container ->
             val constructor = key.type.primaryConstructor!!
             val params = constructor.parameters.map {

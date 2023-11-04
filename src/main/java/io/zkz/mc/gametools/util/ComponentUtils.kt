@@ -7,7 +7,6 @@ import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.ComponentArgument
 
-
 object ComponentUtils {
     fun Component.join(args: Iterable<Component>): Component {
         val res = Component.text()
@@ -53,4 +52,3 @@ object ComponentUtils {
         }
     }
 }
-

@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.potion.PotionType
 
-
 class ItemStackBuilder private constructor(stack: ItemStack) {
     private val stack: ItemStack
     private val lore: MutableList<Component> = mutableListOf()

@@ -23,7 +23,7 @@ class TeamArgument<C : Any> private constructor(
     name: String,
     defaultValue: String,
     suggestionsProvider: BiFunction<CommandContext<C>, String, List<String>>?,
-    defaultDescription: ArgumentDescription,
+    defaultDescription: ArgumentDescription
 ) : CommandArgument<C, GameTeam>(
     required,
     name,
@@ -32,7 +32,8 @@ class TeamArgument<C : Any> private constructor(
     GameTeam::class.java,
     suggestionsProvider,
     defaultDescription
-), InjectionComponent {
+),
+    InjectionComponent {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, GameTeam>(GameTeam::class.java, name) {
         /**
          * Builder a new example component
@@ -55,7 +56,7 @@ class TeamArgument<C : Any> private constructor(
 
         override fun parse(
             commandContext: CommandContext<C>,
-            inputQueue: Queue<String>,
+            inputQueue: Queue<String>
         ): ArgumentParseResult<GameTeam> {
             val input = inputQueue.peek()
                 ?: return ArgumentParseResult.failure(
@@ -81,31 +82,29 @@ class TeamArgument<C : Any> private constructor(
 
     class TeamParseException(
         private val input: String,
-        context: CommandContext<*>,
+        context: CommandContext<*>
     ) : ParserException(
         UUIDParser::class.java,
         context,
         StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_UUID,
         CaptionVariable.of("input", input)
     ) {
-        override fun equals(other: Any?): Boolean {
-            if (this === other) {
-                return true
-            }
-            if (other == null || this.javaClass != other.javaClass) {
-                return false
-            }
-            val that = other as TeamParseException
-            return input == that.input
-        }
-
-        override fun hashCode(): Int {
-            return Objects.hash(input)
-        }
-
         companion object {
             @Serial
             private val serialVersionUID = 6399602590976540023L
+        }
+
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (other !is TeamParseException) return false
+
+            if (input != other.input) return false
+
+            return true
+        }
+
+        override fun hashCode(): Int {
+            return input.hashCode()
         }
     }
 
@@ -116,8 +115,8 @@ class TeamArgument<C : Any> private constructor(
          * @param name Name of the component
          * @param <C>  Command sender type
          * @return Created builder
-        </C> */
-        fun <C : Any> newBuilder(name: String): Builder<C> {
+         </C> */
+        fun <C : Any> builder(name: String): Builder<C> {
             return Builder(name)
         }
 
@@ -127,9 +126,9 @@ class TeamArgument<C : Any> private constructor(
          * @param name Component name
          * @param <C>  Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> of(name: String): CommandArgument<C, GameTeam> {
-            return newBuilder<C>(name).asRequired().build()
+         </C> */
+        fun <C : Any> of(name: String): CommandArgument<C, GameTeam> {
+            return builder<C>(name).asRequired().build()
         }
 
         /**
@@ -138,9 +137,9 @@ class TeamArgument<C : Any> private constructor(
          * @param name Component name
          * @param <C>  Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> optional(name: String): CommandArgument<C, GameTeam> {
-            return newBuilder<C>(name).asOptional().build()
+         </C> */
+        fun <C : Any> optional(name: String): CommandArgument<C, GameTeam> {
+            return builder<C>(name).asOptional().build()
         }
 
         /**
@@ -150,12 +149,12 @@ class TeamArgument<C : Any> private constructor(
          * @param defaultUUID Default uuid
          * @param <C>         Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> optional(
+         </C> */
+        fun <C : Any> optional(
             name: String,
-            defaultUUID: UUID,
+            defaultUUID: UUID
         ): CommandArgument<C, GameTeam> {
-            return newBuilder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
+            return builder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
         }
     }
 }

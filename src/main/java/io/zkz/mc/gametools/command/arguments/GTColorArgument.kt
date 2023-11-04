@@ -18,7 +18,7 @@ import java.util.*
 import java.util.function.BiFunction
 import java.util.regex.Pattern
 
-class GTColorArgument<C: Any> private constructor(
+class GTColorArgument<C : Any> private constructor(
     required: Boolean,
     name: String,
     defaultValue: String,
@@ -32,7 +32,8 @@ class GTColorArgument<C: Any> private constructor(
     TypeToken.get(GTColor::class.java),
     suggestionsProvider,
     defaultDescription
-), InjectionComponent {
+),
+    InjectionComponent {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, GTColor>(GTColor::class.java, name) {
         /**
          * Builder a new example component
@@ -50,7 +51,7 @@ class GTColorArgument<C: Any> private constructor(
         }
     }
 
-    class GTColorParser<C: Any> : ArgumentParser<C, GTColor> {
+    class GTColorParser<C : Any> : ArgumentParser<C, GTColor> {
         override fun parse(
             commandContext: CommandContext<C>,
             inputQueue: Queue<String>
@@ -86,8 +87,10 @@ class GTColorArgument<C: Any> private constructor(
 
         override fun suggestions(commandContext: CommandContext<C>, input: String): List<String> {
             val suggestions: MutableList<String> = LinkedList()
-            if (input.isEmpty() || input == "#" || (HEX_PREDICATE.matcher(input).matches()
-                        && input.length < if (input.startsWith("#")) 7 else 6)
+            if (input.isEmpty() || input == "#" || (
+                HEX_PREDICATE.matcher(input).matches() &&
+                    input.length < if (input.startsWith("#")) 7 else 6
+                )
             ) {
                 run {
                     var c = 'a'
@@ -133,8 +136,8 @@ class GTColorArgument<C: Any> private constructor(
          * @param name Name of the component
          * @param <C>  Command sender type
          * @return Created builder
-        </C> */
-        fun <C: Any> newBuilder(name: String): Builder<C> {
+         </C> */
+        fun <C : Any> builder(name: String): Builder<C> {
             return Builder(name)
         }
 
@@ -144,9 +147,9 @@ class GTColorArgument<C: Any> private constructor(
          * @param name Component name
          * @param <C>  Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> of(name: String): CommandArgument<C, GTColor> {
-            return newBuilder<C>(name).asRequired().build()
+         </C> */
+        fun <C : Any> of(name: String): CommandArgument<C, GTColor> {
+            return builder<C>(name).asRequired().build()
         }
 
         /**
@@ -155,9 +158,9 @@ class GTColorArgument<C: Any> private constructor(
          * @param name Component name
          * @param <C>  Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> optional(name: String): CommandArgument<C, GTColor> {
-            return newBuilder<C>(name).asOptional().build()
+         </C> */
+        fun <C : Any> optional(name: String): CommandArgument<C, GTColor> {
+            return builder<C>(name).asOptional().build()
         }
 
         /**
@@ -167,12 +170,12 @@ class GTColorArgument<C: Any> private constructor(
          * @param defaultUUID Default uuid
          * @param <C>         Command sender type
          * @return Created component
-        </C> */
-        fun <C: Any> optional(
+         </C> */
+        fun <C : Any> optional(
             name: String,
             defaultUUID: UUID
         ): CommandArgument<C, GTColor> {
-            return newBuilder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
+            return builder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
         }
     }
 }

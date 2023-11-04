@@ -11,19 +11,15 @@ import io.zkz.mc.gametools.command.CommandRegistryConnector
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.InjectionKey
-import io.zkz.mc.gametools.reflection.findAndRegisterCommands
-import io.zkz.mc.gametools.reflection.findPermissions
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.util.ChatType
 import io.zkz.mc.gametools.util.mm
 import org.bukkit.command.CommandSender
-import org.bukkit.permissions.Permission
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.java.JavaPlugin
 import org.reflections.Reflections
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
-import java.util.function.Consumer
 import java.util.function.Function
 
 abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
@@ -40,8 +36,8 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         injectionContainer.register(
             InjectionKey(
                 this::class,
-                "",
-            ),
+                ""
+            )
         ) {
             this as T
         }
@@ -62,15 +58,15 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         // Register commands
         val commandRegistry = CommandRegistryConnector(this)
         logger.info("Initializing commands... ")
-        findAndRegisterCommands(classLoader, this, commandRegistry)
+//        findAndRegisterCommands(classLoader, this, commandRegistry)
 
         // Register permissions
         logger.info("Initializing permissions... ")
-        val permissions: List<Permission> = findPermissions(classLoader, this)
-        permissions.forEach(Consumer { perm: Permission ->
-            server.pluginManager.addPermission(perm)
-            logger.info("Registered permission node " + perm.name)
-        })
+//        val permissions: List<Permission> = findPermissions(classLoader, this)
+//        permissions.forEach(Consumer { perm: Permission ->
+//            server.pluginManager.addPermission(perm)
+//            logger.info("Registered permission node " + perm.name)
+//        })
 
         logger.info("Enabled " + this.name)
     }
@@ -102,7 +98,8 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         }
 
         // Create the Minecraft help menu system
-        @Suppress("UNUSED_VARIABLE") var minecraftHelp = MinecraftHelp(
+        @Suppress("UNUSED_VARIABLE")
+        var minecraftHelp = MinecraftHelp(
             // Help Prefix
             "/example help",
             // Audience mapper
@@ -123,7 +120,9 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
 
         // Create the confirmation this.manager. This allows us to require certain commands to be
         // confirmed before they can be executed
-        commandConfirmationManager = CommandConfirmationManager(30L, TimeUnit.SECONDS,
+        commandConfirmationManager = CommandConfirmationManager(
+            30L,
+            TimeUnit.SECONDS,
             // Action when confirmation is required
             { context ->
                 context.commandContext.sender.sendMessage(
@@ -135,7 +134,8 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
                 sender.sendMessage(
                     mm("<alert_warning>You don't have any pending commands.")
                 )
-            })
+            }
+        )
 
         // Register the confirmation processor. This will enable confirmations for commands that require it
         commandConfirmationManager.registerConfirmationProcessor(commandManager)

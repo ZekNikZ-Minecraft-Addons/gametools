@@ -3,29 +3,25 @@ package io.zkz.mc.gametools.timer
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
-import java.util.function.BiConsumer
-import java.util.function.Consumer
 import kotlin.time.Duration.Companion.convert
 import kotlin.time.DurationUnit
 import kotlin.time.ExperimentalTime
-import kotlin.time.toTimeUnit
 
 data class ScheduledEvent(
     val delay: Long,
-    val hook: (currentTime: Long) -> Unit,
+    val hook: (currentTime: Long) -> Unit
 )
 
 data class ScheduledRepeatingEvent(
     val delay: Long,
     val period: Long,
-    val hook: (currentTime: Long, cancel: () -> Unit) -> Unit,
+    val hook: (currentTime: Long, cancel: () -> Unit) -> Unit
 )
 
 @OptIn(ExperimentalTime::class)
 abstract class AbstractTimer protected constructor(
     private val plugin: JavaPlugin,
-    private val refreshRate: Long,
+    private val refreshRate: Long
 ) {
     private val hooks: MutableMap<Int, Runnable> = ConcurrentHashMap()
     private val tempHooks: MutableMap<Int, (cancel: () -> Unit) -> Unit> = ConcurrentHashMap()
@@ -94,13 +90,13 @@ abstract class AbstractTimer protected constructor(
 
     protected abstract fun isReadyToRun(
         event: ScheduledEvent,
-        currentTimeMillis: Long,
+        currentTimeMillis: Long
     ): Boolean
 
     protected abstract fun isReadyToRun(
         event: ScheduledRepeatingEvent,
         lastRun: Long,
-        currentTimeMillis: Long,
+        currentTimeMillis: Long
     ): Boolean
 
     fun start(): AbstractTimer {
@@ -109,7 +105,7 @@ abstract class AbstractTimer protected constructor(
                 plugin,
                 ::update,
                 refreshRate,
-                refreshRate,
+                refreshRate
             )
             isStarted = true
             isDone = false
@@ -133,7 +129,7 @@ abstract class AbstractTimer protected constructor(
                 plugin,
                 { update() },
                 refreshRate,
-                refreshRate,
+                refreshRate
             )
             onUnpause()
         }

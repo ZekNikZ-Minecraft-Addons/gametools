@@ -6,11 +6,13 @@ import cloud.commandframework.bukkit.parsers.selector.SinglePlayerSelectorArgume
 import cloud.commandframework.context.CommandContext
 import io.zkz.mc.gametools.command.CommandRegistry
 import io.zkz.mc.gametools.command.CommandRegistryConnector
+import io.zkz.mc.gametools.hud.ActionBarService
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.util.*
 import io.zkz.mc.gametools.util.BukkitUtils.runNextTick
-import io.zkz.mc.gametools.hud.ActionBarService
+import io.zkz.mc.gametools.util.Chat
+import io.zkz.mc.gametools.util.ChatType
+import io.zkz.mc.gametools.util.mm
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -58,17 +60,18 @@ object VanishCommands : CommandRegistry() {
             builder
                 .permission(PERM_VANISH_SELF.name)
                 .literal("self")
-                .argument(StringArgument.builder<CommandSender>("key")
-                    .withSuggestionsProvider { cmd: CommandContext<CommandSender>, _: String ->
-                        val sender = cmd.sender
-                        if (sender !is Player) {
-                            return@withSuggestionsProvider listOf<String>()
+                .argument(
+                    StringArgument.builder<CommandSender>("key")
+                        .withSuggestionsProvider { cmd: CommandContext<CommandSender>, _: String ->
+                            val sender = cmd.sender
+                            if (sender !is Player) {
+                                return@withSuggestionsProvider listOf<String>()
+                            }
+                            vanishingService.getPlayerHiddenReasons(sender.uniqueId)?.toList() ?: listOf()
                         }
-                        vanishingService.getPlayerHiddenReasons(sender.uniqueId)?.toList() ?: listOf()
-                    }
-                    .single()
-                    .asRequired()
-                    .build()
+                        .single()
+                        .asRequired()
+                        .build()
                 )
                 .handler {
                     val sender = it.sender
@@ -99,17 +102,18 @@ object VanishCommands : CommandRegistry() {
             builder
                 .permission(PERM_VANISH_OTHERS.name)
                 .argument(SinglePlayerSelectorArgument.of<CommandSender>("player"))
-                .argument(StringArgument.builder<CommandSender>("key")
-                    .withSuggestionsProvider { cmd: CommandContext<CommandSender>, _: String ->
-                        val sender = cmd.sender
-                        if (sender !is Player) {
-                            return@withSuggestionsProvider listOf<String>()
+                .argument(
+                    StringArgument.builder<CommandSender>("key")
+                        .withSuggestionsProvider { cmd: CommandContext<CommandSender>, _: String ->
+                            val sender = cmd.sender
+                            if (sender !is Player) {
+                                return@withSuggestionsProvider listOf<String>()
+                            }
+                            vanishingService.getPlayerHiddenReasons(sender.uniqueId)?.toList() ?: listOf()
                         }
-                        vanishingService.getPlayerHiddenReasons(sender.uniqueId)?.toList() ?: listOf()
-                    }
-                    .single()
-                    .asRequired()
-                    .build()
+                        .single()
+                        .asRequired()
+                        .build()
                 )
                 .handler {
                     val p = it.get<SinglePlayerSelector>("player")

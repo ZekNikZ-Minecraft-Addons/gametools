@@ -1,6 +1,7 @@
 package io.zkz.mc.gametools.readyup
 
 import io.zkz.mc.gametools.GameToolsPlugin
+import io.zkz.mc.gametools.hud.ActionBarService
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.sound.StandardSounds
@@ -8,7 +9,6 @@ import io.zkz.mc.gametools.util.Chat
 import io.zkz.mc.gametools.util.ChatType
 import io.zkz.mc.gametools.util.ComponentUtils.join
 import io.zkz.mc.gametools.util.mm
-import io.zkz.mc.gametools.hud.ActionBarService
 import net.kyori.adventure.audience.Audience
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import org.bukkit.Bukkit

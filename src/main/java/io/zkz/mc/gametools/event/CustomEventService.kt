@@ -4,6 +4,7 @@ import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.util.BukkitUtils
+import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.entity.EntityPickupItemEvent
@@ -15,18 +16,16 @@ import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractAtEntityEvent
 import org.bukkit.event.player.PlayerItemBreakEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
-import io.zkz.mc.gametools.event.PlayerInventoryChangeEvent.Reason.*
-import org.bukkit.Material
 
 @Injectable
 class CustomEventService(
-    plugin: GameToolsPlugin,
+    plugin: GameToolsPlugin
 ) : PluginService<GameToolsPlugin>(plugin) {
     @EventHandler
     fun onInventoryInteract(event: InventoryInteractEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                INVENTORY_INTERACT_GENERAL,
+                PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_GENERAL,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
                 event
@@ -38,7 +37,7 @@ class CustomEventService(
     fun onInventoryClick(event: InventoryClickEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                INVENTORY_INTERACT_CLICK,
+                PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_CLICK,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
                 event
@@ -50,7 +49,7 @@ class CustomEventService(
     fun onInventoryDrag(event: InventoryDragEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                INVENTORY_INTERACT_DRAG,
+                PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_DRAG,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
                 event
@@ -62,7 +61,7 @@ class CustomEventService(
     fun onPlayerDropItem(event: PlayerDropItemEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_ITEM_DROP,
+                PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_DROP,
                 event.player,
                 event.player.inventory,
                 event
@@ -74,7 +73,7 @@ class CustomEventService(
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_ITEM_CONSUME,
+                PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_CONSUME,
                 event.player,
                 event.player.inventory,
                 event
@@ -86,7 +85,7 @@ class CustomEventService(
     fun onPlayerItemBreak(event: PlayerItemBreakEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_ITEM_BREAK,
+                PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_BREAK,
                 event.player,
                 event.player.inventory
             )
@@ -97,7 +96,7 @@ class CustomEventService(
     fun onCraft(event: CraftItemEvent) {
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_ITEM_CRAFT,
+                PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_CRAFT,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
                 event
@@ -113,7 +112,7 @@ class CustomEventService(
 
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_INTERACT_ENTITY,
+                PlayerInventoryChangeEvent.Reason.PLAYER_INTERACT_ENTITY,
                 event.player,
                 event.player.inventory,
                 event
@@ -129,7 +128,7 @@ class CustomEventService(
 
         BukkitUtils.dispatchNextTick {
             PlayerInventoryChangeEvent(
-                PLAYER_ITEM_PICK_UP,
+                PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_PICK_UP,
                 event.entity as Player,
                 (event.entity as Player).inventory,
                 event

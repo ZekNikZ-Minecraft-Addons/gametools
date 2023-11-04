@@ -14,7 +14,6 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.permissions.PermissionDefault
-import java.util.function.Consumer
 
 @Injectable
 object ReadyUpCommands : CommandRegistry() {
@@ -62,11 +61,12 @@ object ReadyUpCommands : CommandRegistry() {
         registry.registerCommand(
             builder.literal("undo")
                 .permission(PERM_READY_UNDO.name)
-                .argument(StringArgument.builder<CommandSender>("player")
-                    .single()
-                    .withSuggestionsProvider { _, _ -> readyUpService.allReadyPlayerNames.toList() }
-                    .asRequired()
-                    .build()
+                .argument(
+                    StringArgument.builder<CommandSender>("player")
+                        .single()
+                        .withSuggestionsProvider { _, _ -> readyUpService.allReadyPlayerNames.toList() }
+                        .asRequired()
+                        .build()
                 )
                 .handler {
                     runNow {
@@ -101,7 +101,9 @@ object ReadyUpCommands : CommandRegistry() {
                 .handler {
                     runNow {
                         readyUpService.waitForReady(
-                            Bukkit.getOnlinePlayers().map { it.uniqueId }, { Bukkit.getServer().sendMessage(mm("<aqua>Done waiting for ready!")) })
+                            Bukkit.getOnlinePlayers().map { it.uniqueId },
+                            { Bukkit.getServer().sendMessage(mm("<aqua>Done waiting for ready!")) }
+                        )
                     }
                 }
         )

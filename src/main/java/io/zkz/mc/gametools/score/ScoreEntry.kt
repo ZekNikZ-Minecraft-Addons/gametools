@@ -8,7 +8,7 @@ data class ScoreEntry(
     val round: Int,
     val reason: String,
     val points: Double,
-    val multiplier: Double,
+    val multiplier: Double
 ) {
     val totalPoints: Double
         get() = points * multiplier

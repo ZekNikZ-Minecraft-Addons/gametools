@@ -1,6 +1,6 @@
 package io.zkz.mc.gametools.util.observable
 
-interface IObservable<T: IObservable<T>> {
+interface IObservable<T : IObservable<T>> {
     val listeners: Collection<IObserver<T>>
 
     fun addListener(observer: IObserver<T>)

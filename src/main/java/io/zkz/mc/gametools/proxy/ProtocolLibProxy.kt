@@ -16,7 +16,7 @@ import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
-object ProtocolLibProxy: InjectionComponent {
+object ProtocolLibProxy : InjectionComponent {
     val teamService by inject<TeamService>()
 
     fun setupGlowing(plugin: Plugin?) {

@@ -4,7 +4,6 @@ import io.zkz.mc.gametools.util.BukkitUtils.forEachPlayer
 import org.bukkit.entity.Player
 import org.bukkit.plugin.Plugin
 
-
 object PlayerUtils {
     fun hidePlayer(plugin: Plugin, player: Player) {
         forEachPlayer { otherPlayer: Player ->

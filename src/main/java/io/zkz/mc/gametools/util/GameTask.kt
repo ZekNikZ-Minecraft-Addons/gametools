@@ -4,7 +4,6 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
-
 abstract class GameTask protected constructor(private val delay: Long, period: Long?) : BukkitRunnable() {
     private val internalTaskId: Long = nextInternalTaskId++
     private val isRepeating: Boolean

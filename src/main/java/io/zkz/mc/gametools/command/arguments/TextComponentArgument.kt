@@ -23,7 +23,7 @@ class TextComponentArgument<C : Any> private constructor(
     name: String,
     defaultValue: String,
     suggestionsProvider: BiFunction<CommandContext<C>, String, List<String>>,
-    defaultDescription: ArgumentDescription,
+    defaultDescription: ArgumentDescription
 ) : CommandArgument<C, Component>(
     required,
     name,
@@ -34,7 +34,8 @@ class TextComponentArgument<C : Any> private constructor(
     defaultDescription
 ) {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, Component>(
-        Component::class.java, name
+        Component::class.java,
+        name
     ) {
         override fun build(): CommandArgument<C, Component> {
             return TextComponentArgument<C>(
@@ -50,7 +51,7 @@ class TextComponentArgument<C : Any> private constructor(
     class TextComponentParser<C : Any> : ArgumentParser<C, Component> {
         override fun parse(
             commandContext: CommandContext<C>,
-            inputQueue: Queue<String>,
+            inputQueue: Queue<String>
         ): ArgumentParseResult<Component> {
             val peek = inputQueue.peek()
                 ?: return ArgumentParseResult.failure(
@@ -84,7 +85,8 @@ class TextComponentArgument<C : Any> private constructor(
                     val string = if (var4.cause != null) var4.cause!!.message else var4.message
                     //                    throw ERROR_INVALID_JSON.createWithContext(stringReader, string);
                     val e: Exception = JsonParseException(
-                        string!!, commandContext
+                        string!!,
+                        commandContext
                     )
                     e.printStackTrace()
                     e
@@ -104,7 +106,7 @@ class TextComponentArgument<C : Any> private constructor(
 
     class JsonParseException(
         input: String,
-        context: CommandContext<*>,
+        context: CommandContext<*>
     ) : ParserException(
         StringArgument.StringParser::class.java,
         context,
@@ -124,8 +126,8 @@ class TextComponentArgument<C : Any> private constructor(
          * @param name Name of the argument
          * @param <C>  Command sender type
          * @return Created builder
-        </C> */
-        fun <C : Any> newBuilder(name: String): CommandArgument.Builder<C, Component> {
+         </C> */
+        fun <C : Any> builder(name: String): CommandArgument.Builder<C, Component> {
             return Builder(name)
         }
 
@@ -135,9 +137,9 @@ class TextComponentArgument<C : Any> private constructor(
          * @param name Argument name
          * @param <C>  Command sender type
          * @return Created argument
-        </C> */
+         */
         fun <C : Any> of(name: String): CommandArgument<C, Component> {
-            return newBuilder<C>(name).asRequired().build()
+            return builder<C>(name).asRequired().build()
         }
 
         /**
@@ -146,9 +148,9 @@ class TextComponentArgument<C : Any> private constructor(
          * @param name Argument name
          * @param <C>  Command sender type
          * @return Created argument
-        </C> */
+         */
         fun <C : Any> optional(name: String): CommandArgument<C, Component> {
-            return newBuilder<C>(name).asOptional().build()
+            return builder<C>(name).asOptional().build()
         }
 
         /**
@@ -158,12 +160,12 @@ class TextComponentArgument<C : Any> private constructor(
          * @param defaultValue Default value
          * @param <C>          Command sender type
          * @return Created argument
-        </C> */
+         */
         fun <C : Any> optional(
             name: String,
-            defaultValue: String,
+            defaultValue: String
         ): CommandArgument<C, Component> {
-            return newBuilder<C>(name).asOptionalWithDefault(defaultValue).build()
+            return builder<C>(name).asOptionalWithDefault(defaultValue).build()
         }
     }
 }

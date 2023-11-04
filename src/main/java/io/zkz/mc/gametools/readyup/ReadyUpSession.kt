@@ -1,11 +1,11 @@
 package io.zkz.mc.gametools.readyup
 
+import io.zkz.mc.gametools.hud.ActionBarService
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.inject
 import io.zkz.mc.gametools.util.Chat
 import io.zkz.mc.gametools.util.ChatType
 import io.zkz.mc.gametools.util.mm
-import io.zkz.mc.gametools.hud.ActionBarService
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.boss.BarColor
@@ -14,7 +14,6 @@ import org.bukkit.boss.BossBar
 import org.bukkit.entity.Player
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
-
 
 class ReadyUpSession internal constructor(
     private val sessionId: Int,

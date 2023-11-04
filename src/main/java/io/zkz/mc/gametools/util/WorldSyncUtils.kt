@@ -6,7 +6,6 @@ import org.bukkit.GameRule
 import org.bukkit.World
 import java.util.function.Consumer
 
-
 object WorldSyncUtils {
     fun <T : Any> setGameRule(rule: GameRule<T>, value: T) {
         Bukkit.getWorlds().forEach { it.setGameRule(rule, value) }
@@ -15,8 +14,8 @@ object WorldSyncUtils {
     fun setWorldBorderCenter(x: Double, y: Double) {
         Bukkit.getWorlds().forEach {
             it.worldBorder.setCenter(
-                    if (it.environment == World.Environment.NETHER) x / 8 else x,
-                    if (it.environment == World.Environment.NETHER) y / 8 else y,
+                if (it.environment == World.Environment.NETHER) x / 8 else x,
+                if (it.environment == World.Environment.NETHER) y / 8 else y
             )
         }
     }
@@ -64,25 +63,31 @@ object WorldSyncUtils {
     }
 
     fun setWeatherClear() {
-        Bukkit.getWorlds().forEach(Consumer { world: World ->
-            world.setStorm(false)
-            world.isThundering = false
-            world.weatherDuration = 0
-        })
+        Bukkit.getWorlds().forEach(
+            Consumer { world: World ->
+                world.setStorm(false)
+                world.isThundering = false
+                world.weatherDuration = 0
+            }
+        )
     }
 
     fun setWeatherRain() {
-        Bukkit.getWorlds().forEach(Consumer { world: World ->
-            world.setStorm(true)
-            world.isThundering = false
-        })
+        Bukkit.getWorlds().forEach(
+            Consumer { world: World ->
+                world.setStorm(true)
+                world.isThundering = false
+            }
+        )
     }
 
     fun setWeatherStorm() {
-        Bukkit.getWorlds().forEach(Consumer { world: World ->
-            world.setStorm(true)
-            world.isThundering = true
-        })
+        Bukkit.getWorlds().forEach(
+            Consumer { world: World ->
+                world.setStorm(true)
+                world.isThundering = true
+            }
+        )
     }
 
     val time: Long

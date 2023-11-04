@@ -16,7 +16,7 @@ import java.util.*
 
 @Injectable
 class TeamService(
-    plugin: GameToolsPlugin,
+    plugin: GameToolsPlugin
 ) : PluginService<GameToolsPlugin>(plugin) {
     private val teams: MutableMap<String, GameTeam> get() = mutableMapOf()
     private val players: MutableMap<UUID, String> get() = mutableMapOf()
@@ -24,7 +24,7 @@ class TeamService(
     private var _teamConfig = TeamConfig(
         friendlyFire = false,
         glowingEnabled = true,
-        collisionRule = OptionStatus.NEVER,
+        collisionRule = OptionStatus.NEVER
     )
 
     var friendlyFire: Boolean
@@ -166,7 +166,9 @@ class TeamService(
         // Call event
         Bukkit.getServer().pluginManager.callEvent(
             TeamChangeEvent(
-                team, null, teamMembers
+                team,
+                null,
+                teamMembers
             )
         )
     }
@@ -209,7 +211,9 @@ class TeamService(
         if (!suppressEvent) {
             Bukkit.getServer().pluginManager.callEvent(
                 TeamChangeEvent(
-                    oldTeam, newTeam, playerId
+                    oldTeam,
+                    newTeam,
+                    playerId
                 )
             )
         }
@@ -229,7 +233,9 @@ class TeamService(
         // Call event
         Bukkit.getServer().pluginManager.callEvent(
             TeamChangeEvent(
-                getTeam(currentTeam), null, playerId
+                getTeam(currentTeam),
+                null,
+                playerId
             )
         )
     }

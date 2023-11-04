@@ -13,7 +13,7 @@ import java.util.*
 class ScoreService(
     plugin: GameToolsPlugin,
     private val constants: GTConstants,
-    private val teamService: TeamService,
+    private val teamService: TeamService
 ) : PluginService<GameToolsPlugin>(plugin), IObservable<ScoreService> {
     private val entries: MutableList<ScoreEntry> = mutableListOf()
 

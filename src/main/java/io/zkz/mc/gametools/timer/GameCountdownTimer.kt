@@ -11,7 +11,7 @@ class GameCountdownTimer constructor(
     refreshRateTicks: Long,
     timerValue: Long,
     timerValueUnits: DurationUnit,
-    private val onDone: Runnable? = null,
+    private val onDone: Runnable? = null
 ) : AbstractTimer(
     plugin,
     refreshRateTicks
