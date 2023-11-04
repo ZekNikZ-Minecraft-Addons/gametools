@@ -13,7 +13,7 @@ import java.util.*
 class ScoreService(
     plugin: GameToolsPlugin,
     private val constants: GTConstants,
-    private val teamService: TeamService
+    private val teamService: TeamService,
 ) : PluginService<GameToolsPlugin>(plugin), IObservable<ScoreService> {
     private val entries: MutableList<ScoreEntry> = mutableListOf()
 
@@ -32,29 +32,29 @@ class ScoreService(
             roundIndex,
             reason,
             points,
-            multiplier
+            multiplier,
         )
         entries.add(entry)
 
         // Player score
         roundPlayerScores.merge(
             playerId,
-            entry.totalPoints
+            entry.totalPoints,
         ) { a, b -> a + b }
         gamePlayerScores.merge(
             playerId,
-            entry.totalPoints
+            entry.totalPoints,
         ) { a, b -> a + b }
 
         // Team score
         val team: GameTeam? = teamService.getTeamOfPlayer(playerId)
         roundTeamScores.merge(
             team,
-            entry.totalPoints
+            entry.totalPoints,
         ) { a, b -> a + b }
         gameTeamScores.merge(
             team,
-            entry.totalPoints
+            entry.totalPoints,
         ) { a, b -> a + b }
         this.notifyObservers()
     }

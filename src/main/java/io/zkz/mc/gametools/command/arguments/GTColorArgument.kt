@@ -23,7 +23,7 @@ class GTColorArgument<C : Any> private constructor(
     name: String,
     defaultValue: String,
     suggestionsProvider: BiFunction<CommandContext<C>, String, List<String>>,
-    defaultDescription: ArgumentDescription
+    defaultDescription: ArgumentDescription,
 ) : CommandArgument<C, GTColor>(
     required,
     name,
@@ -31,7 +31,7 @@ class GTColorArgument<C : Any> private constructor(
     defaultValue,
     TypeToken.get(GTColor::class.java),
     suggestionsProvider,
-    defaultDescription
+    defaultDescription,
 ),
     InjectionComponent {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, GTColor>(GTColor::class.java, name) {
@@ -46,7 +46,7 @@ class GTColorArgument<C : Any> private constructor(
                 name,
                 defaultValue,
                 suggestionsProvider,
-                defaultDescription
+                defaultDescription,
             )
         }
     }
@@ -54,34 +54,34 @@ class GTColorArgument<C : Any> private constructor(
     class GTColorParser<C : Any> : ArgumentParser<C, GTColor> {
         override fun parse(
             commandContext: CommandContext<C>,
-            inputQueue: Queue<String>
+            inputQueue: Queue<String>,
         ): ArgumentParseResult<GTColor> {
             val input = inputQueue.peek()
                 ?: return ArgumentParseResult.failure(
                     NoInputProvidedException(
                         TextColorParser::class.java,
-                        commandContext
-                    )
+                        commandContext,
+                    ),
                 )
             for ((key, value) in GTColor.COLORS) {
                 if (key.equals(input, ignoreCase = true)) {
                     inputQueue.remove()
                     return ArgumentParseResult.success(
-                        value
+                        value,
                     )
                 }
             }
             if (HEX_PREDICATE.matcher(input).matches()) {
                 inputQueue.remove()
                 return ArgumentParseResult.success(
-                    GTColor((if (input.startsWith("#")) input.substring(1) else input).toInt(16))
+                    GTColor((if (input.startsWith("#")) input.substring(1) else input).toInt(16)),
                 )
             }
             return ArgumentParseResult.failure(
                 TextColorParseException(
                     commandContext,
-                    input
-                )
+                    input,
+                ),
             )
         }
 
@@ -114,12 +114,12 @@ class GTColorArgument<C : Any> private constructor(
 
     private class TextColorParseException(
         commandContext: CommandContext<*>,
-        input: String
+        input: String,
     ) : ParserException(
         TextColorParser::class.java,
         commandContext,
         StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_COLOR,
-        CaptionVariable.of("input", input)
+        CaptionVariable.of("input", input),
     ) {
         companion object {
             @Serial
@@ -173,7 +173,7 @@ class GTColorArgument<C : Any> private constructor(
          </C> */
         fun <C : Any> optional(
             name: String,
-            defaultUUID: UUID
+            defaultUUID: UUID,
         ): CommandArgument<C, GTColor> {
             return builder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
         }

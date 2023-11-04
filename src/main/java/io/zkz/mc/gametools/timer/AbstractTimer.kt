@@ -9,19 +9,19 @@ import kotlin.time.ExperimentalTime
 
 data class ScheduledEvent(
     val delay: Long,
-    val hook: (currentTime: Long) -> Unit
+    val hook: (currentTime: Long) -> Unit,
 )
 
 data class ScheduledRepeatingEvent(
     val delay: Long,
     val period: Long,
-    val hook: (currentTime: Long, cancel: () -> Unit) -> Unit
+    val hook: (currentTime: Long, cancel: () -> Unit) -> Unit,
 )
 
 @OptIn(ExperimentalTime::class)
 abstract class AbstractTimer protected constructor(
     private val plugin: JavaPlugin,
-    private val refreshRate: Long
+    private val refreshRate: Long,
 ) {
     private val hooks: MutableMap<Int, Runnable> = ConcurrentHashMap()
     private val tempHooks: MutableMap<Int, (cancel: () -> Unit) -> Unit> = ConcurrentHashMap()
@@ -90,13 +90,13 @@ abstract class AbstractTimer protected constructor(
 
     protected abstract fun isReadyToRun(
         event: ScheduledEvent,
-        currentTimeMillis: Long
+        currentTimeMillis: Long,
     ): Boolean
 
     protected abstract fun isReadyToRun(
         event: ScheduledRepeatingEvent,
         lastRun: Long,
-        currentTimeMillis: Long
+        currentTimeMillis: Long,
     ): Boolean
 
     fun start(): AbstractTimer {
@@ -105,7 +105,7 @@ abstract class AbstractTimer protected constructor(
                 plugin,
                 ::update,
                 refreshRate,
-                refreshRate
+                refreshRate,
             )
             isStarted = true
             isDone = false
@@ -129,7 +129,7 @@ abstract class AbstractTimer protected constructor(
                 plugin,
                 { update() },
                 refreshRate,
-                refreshRate
+                refreshRate,
             )
             onUnpause()
         }
@@ -177,7 +177,7 @@ abstract class AbstractTimer protected constructor(
 
     fun scheduleRepeatingEvent(delay: Long, period: Long, hook: () -> Unit) {
         repeatingEvents.add(
-            ScheduledRepeatingEvent(delay, period) { _, _ -> hook() }
+            ScheduledRepeatingEvent(delay, period) { _, _ -> hook() },
         )
         repeatingEventsLastRunTimes.add(-1L)
         repeatingEventsCancelled.add(false)

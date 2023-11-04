@@ -37,7 +37,7 @@ object VanishCommands : CommandRegistry() {
                         Chat.sendMessage(
                             sender,
                             ChatType.COMMAND_ERROR,
-                            mm("you cannot use this command from the console.")
+                            mm("you cannot use this command from the console."),
                         )
                         return@handler
                     }
@@ -52,7 +52,7 @@ object VanishCommands : CommandRegistry() {
                         actionBarService.addMessage(sender.uniqueId, "vanish", mm("<alert_warning>You are currently vanished."))
                         runNextTick { vanishingService.hidePlayer(sender, "manual") }
                     }
-                }
+                },
         )
 
         // Select reason
@@ -71,7 +71,7 @@ object VanishCommands : CommandRegistry() {
                         }
                         .single()
                         .asRequired()
-                        .build()
+                        .build(),
                 )
                 .handler {
                     val sender = it.sender
@@ -94,7 +94,7 @@ object VanishCommands : CommandRegistry() {
                         }
                         runNextTick { vanishingService.hidePlayer(sender, key) }
                     }
-                }
+                },
         )
 
         // Select reason and player
@@ -113,7 +113,7 @@ object VanishCommands : CommandRegistry() {
                         }
                         .single()
                         .asRequired()
-                        .build()
+                        .build(),
                 )
                 .handler {
                     val p = it.get<SinglePlayerSelector>("player")
@@ -137,7 +137,7 @@ object VanishCommands : CommandRegistry() {
                         }
                         runNextTick { vanishingService.hidePlayer(player, key) }
                     }
-                }
+                },
         )
     }
 }

@@ -20,7 +20,7 @@ data class GameTeam(
     val formatTag: String,
     val color: GTColor,
     val scoreboardColor: NamedTextColor,
-    val isSpectator: Boolean
+    val isSpectator: Boolean,
 ) : ForwardingAudience, InjectionComponent {
     private val teamService by inject<TeamService>()
 

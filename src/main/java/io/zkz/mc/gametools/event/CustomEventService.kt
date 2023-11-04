@@ -19,7 +19,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent
 
 @Injectable
 class CustomEventService(
-    plugin: GameToolsPlugin
+    plugin: GameToolsPlugin,
 ) : PluginService<GameToolsPlugin>(plugin) {
     @EventHandler
     fun onInventoryInteract(event: InventoryInteractEvent) {
@@ -28,7 +28,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_GENERAL,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
-                event
+                event,
             )
         }
     }
@@ -40,7 +40,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_CLICK,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
-                event
+                event,
             )
         }
     }
@@ -52,7 +52,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.INVENTORY_INTERACT_DRAG,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
-                event
+                event,
             )
         }
     }
@@ -64,7 +64,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_DROP,
                 event.player,
                 event.player.inventory,
-                event
+                event,
             )
         }
     }
@@ -76,7 +76,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_CONSUME,
                 event.player,
                 event.player.inventory,
-                event
+                event,
             )
         }
     }
@@ -87,7 +87,7 @@ class CustomEventService(
             PlayerInventoryChangeEvent(
                 PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_BREAK,
                 event.player,
-                event.player.inventory
+                event.player.inventory,
             )
         }
     }
@@ -99,7 +99,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_CRAFT,
                 event.whoClicked as Player,
                 event.whoClicked.inventory,
-                event
+                event,
             )
         }
     }
@@ -115,7 +115,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.PLAYER_INTERACT_ENTITY,
                 event.player,
                 event.player.inventory,
-                event
+                event,
             )
         }
     }
@@ -131,7 +131,7 @@ class CustomEventService(
                 PlayerInventoryChangeEvent.Reason.PLAYER_ITEM_PICK_UP,
                 event.entity as Player,
                 (event.entity as Player).inventory,
-                event
+                event,
             )
         }
     }

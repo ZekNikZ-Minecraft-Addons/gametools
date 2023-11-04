@@ -37,7 +37,7 @@ object ReadyUpCommands : CommandRegistry() {
                             Chat.sendMessage(
                                 sender,
                                 ChatType.COMMAND_ERROR,
-                                mm("you cannot use this command from the console.")
+                                mm("you cannot use this command from the console."),
                             )
                             return@runNow
                         }
@@ -47,14 +47,14 @@ object ReadyUpCommands : CommandRegistry() {
                             Chat.sendMessage(sender, ChatType.COMMAND_SUCCESS, mm("You are now ready!"))
                         }
                     }
-                }
+                },
         )
 
         // Status
         registry.registerCommand(
             builder.literal("status")
                 .permission(PERM_READY_STATUS.name)
-                .handler { runNow { readyUpService.sendStatus(it.sender) } }
+                .handler { runNow { readyUpService.sendStatus(it.sender) } },
         )
 
         // Undo
@@ -66,7 +66,7 @@ object ReadyUpCommands : CommandRegistry() {
                         .single()
                         .withSuggestionsProvider { _, _ -> readyUpService.allReadyPlayerNames.toList() }
                         .asRequired()
-                        .build()
+                        .build(),
                 )
                 .handler {
                     runNow {
@@ -79,7 +79,7 @@ object ReadyUpCommands : CommandRegistry() {
                             Chat.sendMessage(sender, ChatType.COMMAND_SUCCESS, mm("Marked player <0> as not ready.", playerName))
                         }
                     }
-                }
+                },
         )
 
         // Bypass
@@ -91,7 +91,7 @@ object ReadyUpCommands : CommandRegistry() {
                         val sessions: Map<Int, ReadyUpSession> = readyUpService.getSessions()
                         sessions.values.forEach(ReadyUpSession::complete)
                     }
-                }
+                },
         )
 
         // Test
@@ -102,10 +102,10 @@ object ReadyUpCommands : CommandRegistry() {
                     runNow {
                         readyUpService.waitForReady(
                             Bukkit.getOnlinePlayers().map { it.uniqueId },
-                            { Bukkit.getServer().sendMessage(mm("<aqua>Done waiting for ready!")) }
+                            { Bukkit.getServer().sendMessage(mm("<aqua>Done waiting for ready!")) },
                         )
                     }
-                }
+                },
         )
     }
 }

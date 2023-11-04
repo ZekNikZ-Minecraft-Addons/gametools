@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap
 @Injectable
 class ReadyUpService(
     plugin: GameToolsPlugin,
-    private val actionBarService: ActionBarService
+    private val actionBarService: ActionBarService,
 ) : PluginService<GameToolsPlugin>(plugin) {
     private var nextId = 0
     private val sessions: MutableMap<Int, ReadyUpSession> = ConcurrentHashMap()

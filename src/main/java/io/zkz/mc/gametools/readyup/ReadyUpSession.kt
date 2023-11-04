@@ -19,7 +19,7 @@ class ReadyUpSession internal constructor(
     private val sessionId: Int,
     players: Collection<UUID>,
     private val onAllReady: Runnable,
-    private val onPlayerReady: ((Player, ReadyUpSession) -> Unit)?
+    private val onPlayerReady: ((Player, ReadyUpSession) -> Unit)?,
 ) : InjectionComponent {
     private val readyPlayers: MutableMap<UUID, Boolean> = ConcurrentHashMap()
     private val bossBar: BossBar

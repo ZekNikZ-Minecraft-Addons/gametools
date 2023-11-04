@@ -4,10 +4,10 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class GameCountupTimer(
     plugin: JavaPlugin,
-    refreshRateTicks: Long
+    refreshRateTicks: Long,
 ) : AbstractTimer(
     plugin,
-    refreshRateTicks
+    refreshRateTicks,
 ) {
     private var startTime: Long = 0
     private var pausedCurrentTime: Long = -1

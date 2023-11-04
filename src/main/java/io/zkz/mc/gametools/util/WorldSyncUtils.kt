@@ -15,7 +15,7 @@ object WorldSyncUtils {
         Bukkit.getWorlds().forEach {
             it.worldBorder.setCenter(
                 if (it.environment == World.Environment.NETHER) x / 8 else x,
-                if (it.environment == World.Environment.NETHER) y / 8 else y
+                if (it.environment == World.Environment.NETHER) y / 8 else y,
             )
         }
     }
@@ -68,7 +68,7 @@ object WorldSyncUtils {
                 world.setStorm(false)
                 world.isThundering = false
                 world.weatherDuration = 0
-            }
+            },
         )
     }
 
@@ -77,7 +77,7 @@ object WorldSyncUtils {
             Consumer { world: World ->
                 world.setStorm(true)
                 world.isThundering = false
-            }
+            },
         )
     }
 
@@ -86,7 +86,7 @@ object WorldSyncUtils {
             Consumer { world: World ->
                 world.setStorm(true)
                 world.isThundering = true
-            }
+            },
         )
     }
 

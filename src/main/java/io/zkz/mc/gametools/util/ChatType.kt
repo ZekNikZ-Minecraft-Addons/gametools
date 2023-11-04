@@ -8,57 +8,58 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder
 enum class ChatType(
     private val withoutPointsFormat: String,
     private val withPointsFormat: String?,
-    private val withErrorFormat: String? = null
+    private val withErrorFormat: String? = null,
 ) : InjectionComponent {
     NORMAL(
         "<message>",
-        Constants.POINT_PREFIX + "<message>"
+        Constants.POINT_PREFIX + "<message>",
     ),
     ALERT(
         Constants.INFO_PREFIX + "<legacy_aqua><b><message>",
-        Constants.POINT_PREFIX + Constants.INFO_PREFIX + "<legacy_aqua><b><message>"
+        Constants.POINT_PREFIX + Constants.INFO_PREFIX + "<legacy_aqua><b><message>",
     ),
     WARNING(
         Constants.INFO_PREFIX + "<legacy_dark_red><b><message>",
-        Constants.POINT_PREFIX + Constants.INFO_PREFIX + "<legacy_dark_red><b><message>"
+        Constants.POINT_PREFIX + Constants.INFO_PREFIX + "<legacy_dark_red><b><message>",
     ),
     PASSIVE_INFO(
         Constants.INFO_PREFIX + "<gray><message>",
-        Constants.POINT_PREFIX + "<gray><message>"
+        Constants.POINT_PREFIX + "<gray><message>",
     ),
     ACTIVE_INFO(
         Constants.INFO_PREFIX + "<message>",
-        Constants.POINT_PREFIX + "<message>"
+        Constants.POINT_PREFIX + "<message>",
     ),
     SUCCESS(
         Constants.INFO_PREFIX + "<legacy_green><b><message>",
-        Constants.POINT_PREFIX + "<legacy_green><b><message>"
+        Constants.POINT_PREFIX + "<legacy_green><b><message>",
     ),
     ELIMINATION(
         "<gray>[<legacy_red>\u2620<gray>] <message>",
-        Constants.POINT_PREFIX + "<gray>[<legacy_red>\u2620<gray>]<reset> <message>"
+        Constants.POINT_PREFIX + "<gray>[<legacy_red>\u2620<gray>]<reset> <message>",
     ),
     TEAM_ELIMINATION(
         "[<legacy_red>\u2620\u2620\u2620<reset>] <message>",
-        Constants.POINT_PREFIX + "[<legacy_red>\u2620\u2620\u2620<reset>] <message>"
+        Constants.POINT_PREFIX + "[<legacy_red>\u2620\u2620\u2620<reset>] <message>",
     ),
     GAME_INFO(
         Constants.GAME_PREFIX + "<message>",
-        Constants.POINT_PREFIX + Constants.GAME_PREFIX + "<message>"
+        Constants.POINT_PREFIX + Constants.GAME_PREFIX + "<message>",
     ),
     GAME_SUCCESS(
         Constants.GAME_PREFIX + "<legacy_green><message>",
-        Constants.POINT_PREFIX + Constants.GAME_PREFIX + "<legacy_green><message>"
+        Constants.POINT_PREFIX + Constants.GAME_PREFIX + "<legacy_green><message>",
     ),
     COMMAND_SUCCESS(
         "<gray><message>",
-        null
+        null,
     ),
     COMMAND_ERROR(
         "<legacy_red>Command error: <message>",
         null,
-        "<legacy_red>Command error: <message>\n<dark_gray><cause>"
-    );
+        "<legacy_red>Command error: <message>\n<dark_gray><cause>",
+    ),
+    ;
 
     val constants by inject<GTConstants>()
 
@@ -92,7 +93,7 @@ enum class ChatType(
         return mmResolve(
             format,
             Placeholder.component("message", message),
-            Placeholder.unparsed("name", constants.gameName)
+            Placeholder.unparsed("name", constants.gameName),
         )
     }
 
@@ -101,7 +102,7 @@ enum class ChatType(
             format!!,
             Placeholder.component("message", message),
             Placeholder.unparsed("name", constants.gameName),
-            Placeholder.unparsed("points", points.toString())
+            Placeholder.unparsed("points", points.toString()),
         )
     }
 
@@ -110,7 +111,7 @@ enum class ChatType(
             format!!,
             Placeholder.component("message", message),
             Placeholder.unparsed("name", constants.gameName),
-            Placeholder.unparsed("cause", cause.message!!)
+            Placeholder.unparsed("cause", cause.message!!),
         )
     }
 }

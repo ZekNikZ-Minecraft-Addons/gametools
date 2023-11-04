@@ -5,7 +5,7 @@ import io.zkz.mc.gametools.injection.InjectionComponent
 import org.bukkit.event.Listener
 
 open class PluginService<T : GTPlugin<T>>(
-    val plugin: T
+    val plugin: T,
 ) : Listener, InjectionComponent {
     private val logger get() = plugin.logger
 

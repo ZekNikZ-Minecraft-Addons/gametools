@@ -54,7 +54,7 @@ class InjectionContainer {
         nodes[key] = InjectionNode(
             key,
             this,
-            builder
+            builder,
         )
     }
 
@@ -69,7 +69,7 @@ class InjectionContainer {
 
         nodes[key] = InjectionNode(
             key,
-            this
+            this,
         ) { container ->
             val constructor = key.type.primaryConstructor!!
             val params = constructor.parameters.map {

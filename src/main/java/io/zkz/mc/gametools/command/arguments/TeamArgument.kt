@@ -23,7 +23,7 @@ class TeamArgument<C : Any> private constructor(
     name: String,
     defaultValue: String,
     suggestionsProvider: BiFunction<CommandContext<C>, String, List<String>>?,
-    defaultDescription: ArgumentDescription
+    defaultDescription: ArgumentDescription,
 ) : CommandArgument<C, GameTeam>(
     required,
     name,
@@ -31,7 +31,7 @@ class TeamArgument<C : Any> private constructor(
     defaultValue,
     GameTeam::class.java,
     suggestionsProvider,
-    defaultDescription
+    defaultDescription,
 ),
     InjectionComponent {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, GameTeam>(GameTeam::class.java, name) {
@@ -46,7 +46,7 @@ class TeamArgument<C : Any> private constructor(
                 name,
                 defaultValue,
                 suggestionsProvider,
-                defaultDescription
+                defaultDescription,
             )
         }
     }
@@ -56,14 +56,14 @@ class TeamArgument<C : Any> private constructor(
 
         override fun parse(
             commandContext: CommandContext<C>,
-            inputQueue: Queue<String>
+            inputQueue: Queue<String>,
         ): ArgumentParseResult<GameTeam> {
             val input = inputQueue.peek()
                 ?: return ArgumentParseResult.failure(
                     NoInputProvidedException(
                         TeamParser::class.java,
-                        commandContext
-                    )
+                        commandContext,
+                    ),
                 )
             val team: GameTeam = teamService.getTeam(input)
                 ?: return ArgumentParseResult.failure(TeamParseException(input, commandContext))
@@ -82,12 +82,12 @@ class TeamArgument<C : Any> private constructor(
 
     class TeamParseException(
         private val input: String,
-        context: CommandContext<*>
+        context: CommandContext<*>,
     ) : ParserException(
         UUIDParser::class.java,
         context,
         StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_UUID,
-        CaptionVariable.of("input", input)
+        CaptionVariable.of("input", input),
     ) {
         companion object {
             @Serial
@@ -152,7 +152,7 @@ class TeamArgument<C : Any> private constructor(
          </C> */
         fun <C : Any> optional(
             name: String,
-            defaultUUID: UUID
+            defaultUUID: UUID,
         ): CommandArgument<C, GameTeam> {
             return builder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
         }

@@ -36,8 +36,8 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         injectionContainer.register(
             InjectionKey(
                 this::class,
-                ""
-            )
+                "",
+            ),
         ) {
             this as T
         }
@@ -89,7 +89,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
                 // Command Sender -> C
                 mapperFunction,
                 // C -> Command Sender
-                mapperFunction
+                mapperFunction,
             )
         } catch (e: Exception) {
             logger.severe("Failed to initialize the command this.manager")
@@ -105,7 +105,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
             // Audience mapper
             { s -> s },
             // Manager
-            commandManager
+            commandManager,
         )
 
         // Register Brigadier mappings
@@ -126,15 +126,15 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
             // Action when confirmation is required
             { context ->
                 context.commandContext.sender.sendMessage(
-                    mm("<alert_warning>Confirmation required. Confirm using <alert_info>/${context.command.components[0].argument.name} confirm</alert_info>.")
+                    mm("<alert_warning>Confirmation required. Confirm using <alert_info>/${context.command.components[0].argument.name} confirm</alert_info>."),
                 )
             },
             // Action when no confirmation is pending
             { sender ->
                 sender.sendMessage(
-                    mm("<alert_warning>You don't have any pending commands.")
+                    mm("<alert_warning>You don't have any pending commands."),
                 )
-            }
+            },
         )
 
         // Register the confirmation processor. This will enable confirmations for commands that require it

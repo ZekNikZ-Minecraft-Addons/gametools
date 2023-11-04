@@ -3,7 +3,7 @@ package io.zkz.mc.gametools.injection
 data class InjectionNode<T : Any>(
     val key: InjectionKey,
     val container: InjectionContainer,
-    val builder: (InjectionContainer) -> T
+    val builder: (InjectionContainer) -> T,
 ) {
     val value: T by lazy {
         if (inConstruction) {

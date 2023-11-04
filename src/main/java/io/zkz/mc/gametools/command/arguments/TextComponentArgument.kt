@@ -23,7 +23,7 @@ class TextComponentArgument<C : Any> private constructor(
     name: String,
     defaultValue: String,
     suggestionsProvider: BiFunction<CommandContext<C>, String, List<String>>,
-    defaultDescription: ArgumentDescription
+    defaultDescription: ArgumentDescription,
 ) : CommandArgument<C, Component>(
     required,
     name,
@@ -31,11 +31,11 @@ class TextComponentArgument<C : Any> private constructor(
     defaultValue,
     Component::class.java,
     suggestionsProvider,
-    defaultDescription
+    defaultDescription,
 ) {
     class Builder<C : Any>(name: String) : CommandArgument.Builder<C, Component>(
         Component::class.java,
-        name
+        name,
     ) {
         override fun build(): CommandArgument<C, Component> {
             return TextComponentArgument<C>(
@@ -43,7 +43,7 @@ class TextComponentArgument<C : Any> private constructor(
                 name,
                 defaultValue,
                 suggestionsProvider,
-                defaultDescription
+                defaultDescription,
             )
         }
     }
@@ -51,14 +51,14 @@ class TextComponentArgument<C : Any> private constructor(
     class TextComponentParser<C : Any> : ArgumentParser<C, Component> {
         override fun parse(
             commandContext: CommandContext<C>,
-            inputQueue: Queue<String>
+            inputQueue: Queue<String>,
         ): ArgumentParseResult<Component> {
             val peek = inputQueue.peek()
                 ?: return ArgumentParseResult.failure(
                     NoInputProvidedException(
                         TextComponentParser::class.java,
-                        commandContext
-                    )
+                        commandContext,
+                    ),
                 )
             var i = 0
             val stringJoiner = StringJoiner(" ")
@@ -78,7 +78,7 @@ class TextComponentArgument<C : Any> private constructor(
                         }
                         ArgumentParseResult.success<Component>(
                             GsonComponentSerializer.gson()
-                                .deserialize(net.minecraft.network.chat.Component.Serializer.toJson(component))
+                                .deserialize(net.minecraft.network.chat.Component.Serializer.toJson(component)),
                         )
                     }
                 } catch (var4: Exception) {
@@ -86,7 +86,7 @@ class TextComponentArgument<C : Any> private constructor(
                     //                    throw ERROR_INVALID_JSON.createWithContext(stringReader, string);
                     val e: Exception = JsonParseException(
                         string!!,
-                        commandContext
+                        commandContext,
                     )
                     e.printStackTrace()
                     e
@@ -106,12 +106,12 @@ class TextComponentArgument<C : Any> private constructor(
 
     class JsonParseException(
         input: String,
-        context: CommandContext<*>
+        context: CommandContext<*>,
     ) : ParserException(
         StringArgument.StringParser::class.java,
         context,
         StandardCaptionKeys.ARGUMENT_PARSE_FAILURE_STRING,
-        CaptionVariable.of("input", input)
+        CaptionVariable.of("input", input),
     ) {
         companion object {
             @Serial
@@ -163,7 +163,7 @@ class TextComponentArgument<C : Any> private constructor(
          */
         fun <C : Any> optional(
             name: String,
-            defaultValue: String
+            defaultValue: String,
         ): CommandArgument<C, Component> {
             return builder<C>(name).asOptionalWithDefault(defaultValue).build()
         }

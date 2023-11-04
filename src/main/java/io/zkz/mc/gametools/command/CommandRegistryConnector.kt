@@ -23,7 +23,7 @@ class CommandRegistryConnector(private val plugin: GTPlugin<*>) {
         plugin.commandManager.command(
             builder.literal("confirm")
                 .meta(CommandMeta.DESCRIPTION, "Confirm a pending command")
-                .handler(plugin.commandConfirmationManager.createConfirmationExecutionHandler())
+                .handler(plugin.commandConfirmationManager.createConfirmationExecutionHandler()),
         )
         return builder
     }
@@ -34,11 +34,11 @@ class CommandRegistryConnector(private val plugin: GTPlugin<*>) {
 
     fun <T> registerArgument(
         clazz: Class<T>,
-        supplier: Function<ParserParameters, ArgumentParser<CommandSender, *>>
+        supplier: Function<ParserParameters, ArgumentParser<CommandSender, *>>,
     ) {
         plugin.commandManager.parserRegistry().registerParserSupplier(
             TypeToken.get(clazz),
-            supplier
+            supplier,
         )
     }
 

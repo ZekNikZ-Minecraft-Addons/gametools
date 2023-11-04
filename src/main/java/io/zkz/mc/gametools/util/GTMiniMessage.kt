@@ -28,7 +28,7 @@ object GTMiniMessage : InjectionComponent {
                 .resolver(StandardTags.transition())
                 .resolver(StandardTags.selector())
                 .resolver(gtColors)
-                .build()
+                .build(),
         )
         .build()
 }
@@ -44,13 +44,13 @@ fun mm(s: String): Component {
 fun mm(s: String, vararg args: Component): Component {
     return mmResolve(
         s,
-        *args.mapIndexed { i, arg -> Placeholder.component("$i", arg) }.toTypedArray()
+        *args.mapIndexed { i, arg -> Placeholder.component("$i", arg) }.toTypedArray(),
     )
 }
 
 fun mm(s: String, vararg args: Any?): Component {
     return mmResolve(
         s,
-        *args.mapIndexed { i, arg -> Placeholder.unparsed("$i", arg.toString()) }.toTypedArray()
+        *args.mapIndexed { i, arg -> Placeholder.unparsed("$i", arg.toString()) }.toTypedArray(),
     )
 }

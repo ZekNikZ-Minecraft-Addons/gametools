@@ -20,7 +20,7 @@ object BlockUtils {
         Material.PINK_WOOL,
         Material.PURPLE_WOOL,
         Material.RED_WOOL,
-        Material.YELLOW_WOOL
+        Material.YELLOW_WOOL,
     )
     private val CONCRETES = setOf(
         Material.WHITE_CONCRETE,
@@ -38,7 +38,7 @@ object BlockUtils {
         Material.PINK_CONCRETE,
         Material.PURPLE_CONCRETE,
         Material.RED_CONCRETE,
-        Material.YELLOW_CONCRETE
+        Material.YELLOW_CONCRETE,
     )
     private val LOGS = setOf(
         Material.OAK_LOG,
@@ -47,7 +47,7 @@ object BlockUtils {
         Material.ACACIA_LOG,
         Material.SPRUCE_LOG,
         Material.JUNGLE_LOG,
-        Material.MANGROVE_LOG
+        Material.MANGROVE_LOG,
     )
     private val LEAVES = setOf(
         Material.OAK_LEAVES,
@@ -56,7 +56,7 @@ object BlockUtils {
         Material.ACACIA_LEAVES,
         Material.SPRUCE_LEAVES,
         Material.JUNGLE_LEAVES,
-        Material.MANGROVE_LEAVES
+        Material.MANGROVE_LEAVES,
     )
 
     val allWools: Set<Material>

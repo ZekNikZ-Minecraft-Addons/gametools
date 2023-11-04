@@ -16,7 +16,7 @@ import java.util.*
 
 @Injectable
 class TeamService(
-    plugin: GameToolsPlugin
+    plugin: GameToolsPlugin,
 ) : PluginService<GameToolsPlugin>(plugin) {
     private val teams: MutableMap<String, GameTeam> get() = mutableMapOf()
     private val players: MutableMap<UUID, String> get() = mutableMapOf()
@@ -24,7 +24,7 @@ class TeamService(
     private var _teamConfig = TeamConfig(
         friendlyFire = false,
         glowingEnabled = true,
-        collisionRule = OptionStatus.NEVER
+        collisionRule = OptionStatus.NEVER,
     )
 
     var friendlyFire: Boolean
@@ -168,8 +168,8 @@ class TeamService(
             TeamChangeEvent(
                 team,
                 null,
-                teamMembers
-            )
+                teamMembers,
+            ),
         )
     }
 
@@ -213,8 +213,8 @@ class TeamService(
                 TeamChangeEvent(
                     oldTeam,
                     newTeam,
-                    playerId
-                )
+                    playerId,
+                ),
             )
         }
     }
@@ -235,8 +235,8 @@ class TeamService(
             TeamChangeEvent(
                 getTeam(currentTeam),
                 null,
-                playerId
-            )
+                playerId,
+            ),
         )
     }
 
