@@ -11,9 +11,9 @@ open class PluginService<T : GTPlugin<T>>(
 
     protected open fun setup() {}
 
-    open fun onEnable() {}
+    protected open fun onEnable() {}
 
-    open fun onDisable() {}
+    protected open fun onDisable() {}
 
     fun initialize() {
         // Initialization

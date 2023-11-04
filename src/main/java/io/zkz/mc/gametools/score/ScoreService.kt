@@ -5,8 +5,8 @@ import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.teams.GameTeam
 import io.zkz.mc.gametools.teams.TeamService
 import io.zkz.mc.gametools.util.GTConstants
-import io.zkz.mc.gametools.util.IObservable
-import io.zkz.mc.gametools.util.IObserver
+import io.zkz.mc.gametools.util.observable.IObservable
+import io.zkz.mc.gametools.util.observable.IObserver
 import org.bukkit.entity.Player
 import java.util.*
 

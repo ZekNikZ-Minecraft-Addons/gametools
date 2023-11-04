@@ -4,7 +4,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Cancellable
 import org.bukkit.inventory.PlayerInventory
 
-class PlayerInventoryChangeEvent constructor(
+class PlayerInventoryChangeEvent(
     val reason: Reason,
     val player: Player,
     val inventory: PlayerInventory,
