@@ -1,6 +1,5 @@
 package io.zkz.mc.gametools.inventory
 
-import io.zkz.mc.gametools.util.ISB
 import org.bukkit.Material
 
 class PaginationIterator internal constructor(

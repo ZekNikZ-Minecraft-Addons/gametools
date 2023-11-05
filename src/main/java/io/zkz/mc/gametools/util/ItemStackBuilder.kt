@@ -192,5 +192,15 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
         fun fromStack(stack: ItemStack): ItemStackBuilder {
             return ItemStackBuilder(stack)
         }
+
+        fun stack(material: Material): ItemStack {
+            return ItemStack(material)
+        }
+
+        fun stack(material: Material, amount: Int): ItemStack {
+            return ItemStack(material, amount)
+        }
     }
 }
+
+typealias ISB = ItemStackBuilder

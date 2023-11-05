@@ -1,13 +1,11 @@
 package io.zkz.mc.gametools.settings.impl
 
 import io.zkz.mc.gametools.settings.AbstractGameSetting
-import io.zkz.mc.gametools.util.ISB
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 import kotlin.math.max
 import kotlin.math.min
-
 
 class IntegerSetting(
     name: Component,

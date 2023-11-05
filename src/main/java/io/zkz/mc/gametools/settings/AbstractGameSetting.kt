@@ -9,7 +9,7 @@ abstract class AbstractGameSetting<T>(
     override val description: Component?,
     override val displayIcon: ItemStack,
     private val defaultValue: () -> T,
-    initialValue: () -> T = defaultValue
+    initialValue: () -> T = defaultValue,
 ) : AbstractObservable<IGameSetting<T>>(), IGameSetting<T> {
     override var value: T = initialValue()
 

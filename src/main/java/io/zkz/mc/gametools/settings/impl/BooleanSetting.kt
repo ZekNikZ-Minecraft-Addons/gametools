@@ -1,7 +1,6 @@
 package io.zkz.mc.gametools.settings.impl
 
 import io.zkz.mc.gametools.settings.AbstractGameSetting
-import io.zkz.mc.gametools.util.ISB.material
 import io.zkz.mc.gametools.util.mm
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
