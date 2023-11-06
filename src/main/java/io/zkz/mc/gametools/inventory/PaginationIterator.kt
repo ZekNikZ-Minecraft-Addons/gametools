@@ -1,6 +1,7 @@
 package io.zkz.mc.gametools.inventory
 
 import org.bukkit.Material
+import org.bukkit.inventory.ItemStack
 
 class PaginationIterator internal constructor(
     private val iterator: SlotIterator,
@@ -10,12 +11,12 @@ class PaginationIterator internal constructor(
     private val id = nextId++
 
     fun apply(page: Int) {
-        val iter: SlotIterator = iterator.clone()
+        val iter: SlotIterator = iterator.copy()
         var index = page * itemsPerPage
         var i = 0
         while (iter.hasNext() && i < itemsPerPage) {
             if (index >= items.size) {
-                iter.set(ISB.stack(Material.AIR))
+                iter.set(ItemStack(Material.AIR))
             } else {
                 iter.set(items[index].invoke())
             }

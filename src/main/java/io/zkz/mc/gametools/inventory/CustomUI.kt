@@ -10,7 +10,6 @@ import org.bukkit.inventory.Inventory
 
 // TODO: support ID and parent
 class CustomUI(
-    private val provider: (CustomUI, Player) -> UIContents,
     val id: String,
     val title: Component,
     val rows: Int = 6,
@@ -18,6 +17,7 @@ class CustomUI(
     val type: InventoryType = InventoryType.CHEST,
     val closeable: Boolean = true,
     val parent: CustomUI? = null,
+    private val provider: (CustomUI, Player) -> UIContents,
 ) : InjectionComponent {
     private val inventoryService by inject<InventoryService>()
 

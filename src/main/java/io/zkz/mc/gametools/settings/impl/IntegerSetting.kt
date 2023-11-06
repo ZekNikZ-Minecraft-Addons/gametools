@@ -1,6 +1,7 @@
 package io.zkz.mc.gametools.settings.impl
 
 import io.zkz.mc.gametools.settings.AbstractGameSetting
+import io.zkz.mc.gametools.util.ISB
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -18,9 +19,9 @@ class IntegerSetting(
     initialValue: () -> Int = defaultValue,
 ) : AbstractGameSetting<Int>(name, description, displayIcon, defaultValue, initialValue) {
     override val optionIcon: ItemStack
-        get() = ISB.material(Material.LIGHT_BLUE_DYE)
-            .name(Component.text(value))
-            .build()
+        get() = ISB.fromMaterial(Material.LIGHT_BLUE_DYE) {
+            name(Component.text(value))
+        }
 
     override var value: Int
         get() = super.value

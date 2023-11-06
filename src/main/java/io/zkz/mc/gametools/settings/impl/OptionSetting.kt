@@ -43,26 +43,23 @@ open class OptionSetting<T>(
 
     override val optionIcon: ItemStack
         get() {
-            return ISB
-                .fromStack(options[index].icon).run {
-                    name(options[index].name)
+            return ISB.fromStack(options[index].icon) {
+                name(options[index].name)
 
-                    if (options[index].description != null) {
-                        lore(options[index].description!!)
-                    }
-
-                    addItemFlags(
-                        ItemFlag.HIDE_ENCHANTS,
-                        ItemFlag.HIDE_ATTRIBUTES,
-                        ItemFlag.HIDE_UNBREAKABLE,
-                        ItemFlag.HIDE_DESTROYS,
-                        ItemFlag.HIDE_PLACED_ON,
-                        ItemFlag.HIDE_ITEM_SPECIFICS,
-                        ItemFlag.HIDE_DYE,
-                    )
-
-                    build()
+                if (options[index].description != null) {
+                    lore(options[index].description!!)
                 }
+
+                addItemFlags(
+                    ItemFlag.HIDE_ENCHANTS,
+                    ItemFlag.HIDE_ATTRIBUTES,
+                    ItemFlag.HIDE_UNBREAKABLE,
+                    ItemFlag.HIDE_DESTROYS,
+                    ItemFlag.HIDE_PLACED_ON,
+                    ItemFlag.HIDE_ITEM_SPECIFICS,
+                    ItemFlag.HIDE_DYE,
+                )
+            }
         }
 
     override fun handleLeftClick() {

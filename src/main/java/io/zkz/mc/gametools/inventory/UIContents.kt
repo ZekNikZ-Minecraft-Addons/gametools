@@ -15,7 +15,7 @@ abstract class UIContents(private val inv: CustomUI, private val player: Player)
     private val _items: MutableList<InventoryItem?>
     private val _paginations: MutableList<Pagination> = ArrayList()
 
-    private val inventoryService by inject<InventoryService>()
+    protected val inventoryService by inject<InventoryService>()
 
     init {
         _items = MutableList(slots) { null }

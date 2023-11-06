@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package io.zkz.mc.gametools.scoreboard
 
 import io.zkz.mc.gametools.scoreboard.entry.ComponentEntry

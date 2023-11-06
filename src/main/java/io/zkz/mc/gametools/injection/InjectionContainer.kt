@@ -46,6 +46,10 @@ class InjectionContainer {
         } as List<T>
     }
 
+    fun getAllWhere(predicate: (InjectionKey) -> Boolean): List<Any> {
+        return nodes.filter { predicate(it.key) }.values.map { it.value }
+    }
+
     fun <T : Any> register(key: InjectionKey, builder: (InjectionContainer) -> T) {
         if (nodes.containsKey(key)) {
             throw IllegalStateException("Injection key already exists in container")
@@ -58,7 +62,7 @@ class InjectionContainer {
         )
     }
 
-    fun <T : Any> registerConstructorBuilder(key: InjectionKey) {
+    fun registerConstructorBuilder(key: InjectionKey) {
         if (nodes.containsKey(key)) {
             throw IllegalStateException("Injection key already exists in container")
         }
@@ -79,4 +83,81 @@ class InjectionContainer {
             constructor.call(params)
         }
     }
+
+    fun query(builder: QueryBuilder.() -> Unit): List<Any> {
+        val queryBuilder = QueryBuilder()
+        queryBuilder.builder()
+        return queryBuilder.performQuery(nodes)
+    }
+
+    @DslMarker
+    annotation class QueryBuilderDSL
+
+    @QueryBuilderDSL
+    class QueryBuilder {
+        private val queries = mutableListOf<InjectionQuery>()
+
+        fun oneOf(vararg builders: QueryBuilder.() -> Unit) {
+            val subqueries = builders.map {
+                QueryBuilder().apply(it)
+            }.map {
+                it.queries
+            }
+
+            queries.add { entry ->
+                subqueries.any {
+                    it.all { query ->
+                        query(entry)
+                    }
+                }
+            }
+        }
+
+        fun subclassOf(clazz: KClass<*>) {
+            queries.add {
+                it.key.type.isSubclassOf(clazz)
+            }
+        }
+
+        fun annotatedWith(clazz: KClass<out Annotation>) {
+            queries.add {
+                it.key.type.annotations.any { annotation ->
+                    annotation.annotationClass == clazz
+                }
+            }
+        }
+
+        fun primaryConstructorDependsOn(clazz: KClass<*>) {
+            queries.add {
+                val primaryConstructor = it.key.type.primaryConstructor
+                primaryConstructor != null && primaryConstructor.parameters.any { parameter ->
+                    parameter.type.classifier == clazz
+                }
+            }
+        }
+
+        fun declaredInPackage(packageName: String) {
+            queries.add {
+                it.key.type.java.packageName.startsWith(packageName)
+            }
+        }
+
+        fun filterByKey(predicate: (InjectionKey) -> Boolean) {
+            queries.add {
+                predicate(it.key)
+            }
+        }
+
+        fun filterByValue(predicate: (Any) -> Boolean) {
+            queries.add {
+                predicate(it.value.value)
+            }
+        }
+
+        internal fun performQuery(nodes: Map<InjectionKey, InjectionNode<*>>): List<Any> {
+            return nodes.filter { entry -> queries.all { query -> query(entry) } }.values.map { it.value }
+        }
+    }
 }
+
+private typealias InjectionQuery = (Map.Entry<InjectionKey, InjectionNode<*>>) -> Boolean

@@ -15,6 +15,10 @@ import org.bukkit.inventory.meta.PotionMeta
 import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.potion.PotionType
 
+@DslMarker
+annotation class ItemStackBuilderDSL
+
+@ItemStackBuilderDSL
 class ItemStackBuilder private constructor(stack: ItemStack) {
     private val stack: ItemStack
     private val lore: MutableList<Component> = mutableListOf()
@@ -181,24 +185,16 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
     }
 
     companion object {
-        fun builder(): ItemStackBuilder {
-            return fromMaterial(Material.AIR)
+        fun fromMaterial(material: Material, buildItemStack: ItemStackBuilder.() -> Unit): ItemStack {
+            val builder = ItemStackBuilder(ItemStack(material))
+            builder.buildItemStack()
+            return builder.build()
         }
 
-        fun fromMaterial(material: Material): ItemStackBuilder {
-            return ItemStackBuilder(ItemStack(material))
-        }
-
-        fun fromStack(stack: ItemStack): ItemStackBuilder {
-            return ItemStackBuilder(stack)
-        }
-
-        fun stack(material: Material): ItemStack {
-            return ItemStack(material)
-        }
-
-        fun stack(material: Material, amount: Int): ItemStack {
-            return ItemStack(material, amount)
+        fun fromStack(stack: ItemStack, buildItemStack: ItemStackBuilder.() -> Unit): ItemStack {
+            val builder = ItemStackBuilder(stack)
+            builder.buildItemStack()
+            return builder.build()
         }
     }
 }

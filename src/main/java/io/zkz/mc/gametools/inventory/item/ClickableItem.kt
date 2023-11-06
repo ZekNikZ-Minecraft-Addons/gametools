@@ -25,7 +25,7 @@ class ClickableItem private constructor(override val itemStack: ItemStack, click
             return ClickableItem(stack.clone()) {}
         }
 
-        fun of(stack: ItemStack, clickHandler: InventoryClickEventHandler): ClickableItem {
+        fun ofEvent(stack: ItemStack, clickHandler: InventoryClickEventHandler): ClickableItem {
             return ClickableItem(stack, clickHandler)
         }
 

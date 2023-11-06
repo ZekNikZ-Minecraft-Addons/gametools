@@ -1,6 +1,7 @@
 package io.zkz.mc.gametools.settings.impl
 
 import io.zkz.mc.gametools.settings.AbstractGameSetting
+import io.zkz.mc.gametools.util.ISB
 import io.zkz.mc.gametools.util.mm
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
@@ -25,11 +26,11 @@ class BooleanSetting(
     }
 
     companion object {
-        private val TRUE_ICON = material(Material.LIME_DYE)
-            .name(mm("<lime>Enabled"))
-            .build()
-        private val FALSE_ICON = material(Material.GRAY_DYE)
-            .name(mm("<red>Disabled"))
-            .build()
+        private val TRUE_ICON = ISB.fromMaterial(Material.LIME_DYE) {
+            name(mm("<lime>Enabled"))
+        }
+        private val FALSE_ICON = ISB.fromMaterial(Material.GRAY_DYE) {
+            name(mm("<red>Disabled"))
+        }
     }
 }

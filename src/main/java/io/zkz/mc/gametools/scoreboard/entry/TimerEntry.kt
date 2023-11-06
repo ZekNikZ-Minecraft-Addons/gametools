@@ -16,9 +16,7 @@ class TimerEntry(format: String, label: Component, value: AbstractTimer) : Value
 
     override var value: AbstractTimer
         get() = super.value
-        set(value) {
-            throw UnsupportedOperationException("Cannot set the value of a timer entry")
-        }
+        set(@Suppress("UNUSED_PARAMETER") value) = throw UnsupportedOperationException("Cannot set the value of a timer entry")
 
     override fun cleanup() {
         value.removeHook(hookId)

@@ -17,5 +17,5 @@ data class InjectionNode<T : Any>(
         return@lazy result
     }
 
-    var inConstruction: Boolean = false
+    private var inConstruction: Boolean = false
 }

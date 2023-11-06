@@ -7,17 +7,18 @@ import cloud.commandframework.extra.confirmation.CommandConfirmationManager
 import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler
 import cloud.commandframework.minecraft.extras.MinecraftHelp
 import cloud.commandframework.paper.PaperCommandManager
+import io.zkz.mc.gametools.command.CommandRegistry
 import io.zkz.mc.gametools.command.CommandRegistryConnector
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.InjectionKey
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.util.ChatType
+import io.zkz.mc.gametools.util.findClassesAnnotatedWith
 import io.zkz.mc.gametools.util.mm
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.PluginManager
 import org.bukkit.plugin.java.JavaPlugin
-import org.reflections.Reflections
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import java.util.function.Function
@@ -39,6 +40,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
                 "",
             ),
         ) {
+            @Suppress("UNCHECKED_CAST")
             this as T
         }
 
@@ -52,21 +54,34 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         buildPluginDependentInjectables(server.pluginManager)
 
         // Register and enable services
+        val packageName = this::class.java.packageName
         logger.info("Initializing services...")
-        injectionContainer.getAllOfType<PluginService<T>>().forEach(PluginService<T>::initialize)
+        @Suppress("UNCHECKED_CAST")
+        val services = injectionContainer.query {
+            subclassOf(PluginService::class)
+            declaredInPackage(packageName)
+        } as List<PluginService<*>>
+        services.forEach(PluginService<*>::initialize)
 
         // Register commands
         val commandRegistry = CommandRegistryConnector(this)
         logger.info("Initializing commands... ")
-//        findAndRegisterCommands(classLoader, this, commandRegistry)
+        @Suppress("UNCHECKED_CAST")
+        val commands = injectionContainer.query {
+            subclassOf(CommandRegistry::class)
+            declaredInPackage(packageName)
+        } as List<CommandRegistry>
+        commands.forEach {
+            it.registerCommands(commandRegistry)
+        }
 
         // Register permissions
         logger.info("Initializing permissions... ")
-//        val permissions: List<Permission> = findPermissions(classLoader, this)
-//        permissions.forEach(Consumer { perm: Permission ->
-//            server.pluginManager.addPermission(perm)
-//            logger.info("Registered permission node " + perm.name)
-//        })
+        val permissions = commands.flatMap { it.permissions }
+        permissions.forEach {
+            server.pluginManager.addPermission(it)
+            logger.info("Registered permission node " + it.name)
+        }
 
         logger.info("Enabled " + this.name)
     }
@@ -74,7 +89,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
     private fun setupCommands() {
         // This is a function that will provide a command execution coordinator that parses and executes commands
         // asynchronously
-        val executionCoordinatorFunction = AsynchronousCommandExecutionCoordinator.newBuilder<CommandSender>().build()
+        val executionCoordinatorFunction = AsynchronousCommandExecutionCoordinator.builder<CommandSender>().build()
 
         // This function maps the command sender type of our choice to the bukkit command sender.
         // However, in this example we use the Bukkit command sender, and so we just need to map it
@@ -141,9 +156,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
         commandConfirmationManager.registerConfirmationProcessor(commandManager)
 
         // Override the default exception handlers
-        MinecraftExceptionHandler<CommandSender>().withInvalidSyntaxHandler().withInvalidSenderHandler()
-            .withNoPermissionHandler().withArgumentParsingHandler().withCommandExecutionHandler()
-            .withDecorator(ChatType.COMMAND_ERROR::format).apply(commandManager) { s -> s }
+        MinecraftExceptionHandler<CommandSender>().withInvalidSyntaxHandler().withInvalidSenderHandler().withNoPermissionHandler().withArgumentParsingHandler().withCommandExecutionHandler().withDecorator(ChatType.COMMAND_ERROR::format).apply(commandManager) { s -> s }
     }
 
     override fun onDisable() {
@@ -154,10 +167,19 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
     }
 
     private fun findInjectables() {
-        // TODO: write this
-        val injectables = Reflections().getTypesAnnotatedWith(Injectable::class.java)
+        val injectables = findClassesAnnotatedWith(classLoader, this::class.java.packageName, Injectable::class)
+        injectables.forEach { clazz ->
+            val injectionKey: String = (clazz.annotations.first { it is Injectable } as Injectable).key
 
-//        injectionContainer.registerConstructorBuilder(InjectionKey())
+            // Object
+            if (clazz.objectInstance != null) {
+                injectionContainer.register(InjectionKey(clazz, injectionKey)) { clazz.objectInstance!! }
+                return
+            }
+
+            // Normal class
+            injectionContainer.registerConstructorBuilder(InjectionKey(clazz, injectionKey))
+        }
     }
 
     open fun buildInjectables() {}
