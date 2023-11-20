@@ -101,7 +101,7 @@ object VanishCommands : CommandRegistry() {
         registry.registerCommand(
             builder
                 .permission(PERM_VANISH_OTHERS.name)
-                .argument(SinglePlayerSelectorArgument.of<CommandSender>("player"))
+                .argument(SinglePlayerSelectorArgument.of("player"))
                 .argument(
                     StringArgument.builder<CommandSender>("key")
                         .withSuggestionsProvider { cmd: CommandContext<CommandSender>, _: String ->

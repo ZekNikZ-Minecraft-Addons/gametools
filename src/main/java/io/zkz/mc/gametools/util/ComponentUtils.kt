@@ -23,6 +23,10 @@ object ComponentUtils {
 
     fun Component.join(vararg args: Component): Component = join(listOf(*args))
 
+    fun List<Component>.join(joiner: Component): Component {
+        return joiner.join(this)
+    }
+
     fun extractArgument(cmd: CommandContext<CommandSourceStack>, name: String): Component {
         return GsonComponentSerializer.gson().deserialize(net.minecraft.network.chat.Component.Serializer.toJson(ComponentArgument.getComponent(cmd, name)))
     }

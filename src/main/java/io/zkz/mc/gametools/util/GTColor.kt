@@ -12,9 +12,9 @@ data class GTColor(val rgb: Int) {
     companion object {
         val COLORS: MutableMap<String, GTColor> = HashMap()
 
-        private fun color(name: String, rgb: Int): GTColor? {
+        private fun color(name: String, rgb: Int): GTColor {
             COLORS[name] = GTColor(rgb)
-            return COLORS[name]
+            return COLORS[name]!!
         }
 
         val RED = color("red", 0xFB5455)
