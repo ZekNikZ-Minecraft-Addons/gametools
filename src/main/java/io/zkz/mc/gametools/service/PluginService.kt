@@ -7,7 +7,7 @@ import org.bukkit.event.Listener
 open class PluginService<T : GTPlugin<T>>(
     val plugin: T,
 ) : Listener, InjectionComponent {
-    private val logger get() = plugin.logger
+    protected val logger get() = plugin.logger
 
     protected open fun setup() {}
 

@@ -5,6 +5,7 @@ import org.bukkit.event.HandlerList
 
 abstract class AbstractEvent : Event() {
     companion object {
+        @JvmStatic
         val handlerList = HandlerList()
     }
 

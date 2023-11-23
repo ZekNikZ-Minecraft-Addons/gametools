@@ -18,8 +18,8 @@ import java.util.*
 class TeamService(
     plugin: GameToolsPlugin,
 ) : PluginService<GameToolsPlugin>(plugin) {
-    private val teams: MutableMap<String, GameTeam> get() = mutableMapOf()
-    private val players: MutableMap<UUID, String> get() = mutableMapOf()
+    private val teams = mutableMapOf<String, GameTeam>()
+    private val players = mutableMapOf<UUID, String>()
 
     private var _teamConfig = TeamConfig(
         friendlyFire = false,

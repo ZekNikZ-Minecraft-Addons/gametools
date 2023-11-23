@@ -169,12 +169,14 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
     private fun findInjectables() {
         val injectables = findClassesAnnotatedWith(classLoader, this::class.java.packageName, Injectable::class)
         injectables.forEach { clazz ->
+            println("Found injectable class ${clazz.qualifiedName}")
+
             val injectionKey: String = (clazz.annotations.first { it is Injectable } as Injectable).key
 
             // Object
             if (clazz.objectInstance != null) {
                 injectionContainer.register(InjectionKey(clazz, injectionKey)) { clazz.objectInstance!! }
-                return
+                return@forEach
             }
 
             // Normal class

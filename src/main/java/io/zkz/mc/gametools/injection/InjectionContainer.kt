@@ -60,6 +60,8 @@ class InjectionContainer {
             this,
             builder,
         )
+
+        println("Registered injectable with key $key")
     }
 
     fun registerConstructorBuilder(key: InjectionKey) {
@@ -80,8 +82,18 @@ class InjectionContainer {
                 val type = it.type.classifier
                 container.get(type as KClass<*>)
             }
-            constructor.call(params)
+            try {
+                constructor.call(*params.toTypedArray())
+            } catch (e: IllegalArgumentException) {
+                println("Error: $e")
+                println("       invalid constructor")
+                println("       constructor was ${constructor.returnType.classifier}::${constructor.name}")
+                println("       constructor expected ${constructor.parameters.size} args of types: ${constructor.parameters.joinToString(", ") { it.type.classifier.toString() }}")
+                println("       actual arguments were ${params.size} args of types: ${params.joinToString(", ") { it.javaClass.canonicalName }}")
+            }
         }
+
+        println("Registered injectable constructor with key $key")
     }
 
     fun query(builder: QueryBuilder.() -> Unit): List<Any> {
@@ -155,6 +167,9 @@ class InjectionContainer {
         }
 
         internal fun performQuery(nodes: Map<InjectionKey, InjectionNode<*>>): List<Any> {
+            nodes.forEach {
+                println("Found node ${it.key}")
+            }
             return nodes.filter { entry -> queries.all { query -> query(entry) } }.values.map { it.value }
         }
     }

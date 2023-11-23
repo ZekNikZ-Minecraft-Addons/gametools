@@ -27,6 +27,10 @@ object ComponentUtils {
         return joiner.join(this)
     }
 
+    fun Component.toPlainTextString(): String {
+        return PlainTextComponentSerializer.plainText().serialize(this)
+    }
+
     fun extractArgument(cmd: CommandContext<CommandSourceStack>, name: String): Component {
         return GsonComponentSerializer.gson().deserialize(net.minecraft.network.chat.Component.Serializer.toJson(ComponentArgument.getComponent(cmd, name)))
     }
