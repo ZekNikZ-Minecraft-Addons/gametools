@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'io.zkz.mc'
-version = '6.0-SNAPSHOT'
+version = '6.0.0-SNAPSHOT'
 
 ext {
     // SDK
@@ -21,6 +21,9 @@ ext {
 
     // Plugins
     protocolLibVersion = '5.1.0'
+
+    // MC
+    apiVersion = '1.20'
 }
 
 repositories {
@@ -49,21 +52,21 @@ java {
     def javaVersion = JavaVersion.toVersion(targetJavaVersion)
     sourceCompatibility = javaVersion
     targetCompatibility = javaVersion
-    if (JavaVersion.current() < javaVersion) {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(targetJavaVersion as String)
-        }
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(targetJavaVersion as String)
     }
 }
 
 tasks.withType(JavaCompile).configureEach {
-    if (targetJavaVersion >= 10 || JavaVersion.current().isJava10Compatible()) {
-        options.release = targetJavaVersion
-    }
+    options.release = targetJavaVersion
 }
 
 processResources {
-    def props = [version: version]
+    def props = [
+            version: version,
+            name: name,
+            apiVersion: apiVersion
+    ]
     inputs.properties props
     filteringCharset 'UTF-8'
     filesMatching('plugin.yml') {

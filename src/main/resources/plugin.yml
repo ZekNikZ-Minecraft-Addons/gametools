@@ -1,5 +1,5 @@
-name: gametools
+name: '${name}'
 version: '${version}'
 main: io.zkz.mc.gametools.GameToolsPlugin
-api-version: 1.20
+api-version: '${apiVersion}'
 authors: [ZekNikZ]

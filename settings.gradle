@@ -1,9 +1,1 @@
 rootProject.name = 'gametools'
-//
-//toolchainManagement {
-//    jvm {
-//        javaRepositories {
-//
-//        }
-//    }
-//}
