@@ -100,7 +100,6 @@ class InventoryService(plugin: GameToolsPlugin) : PluginService<GameToolsPlugin>
 
             contents[p]!![row, column]?.handleClick(e)
 
-            @Suppress("UnstableApiUsage")
             p.updateInventory()
         }
     }
@@ -111,7 +110,7 @@ class InventoryService(plugin: GameToolsPlugin) : PluginService<GameToolsPlugin>
 
         if (!inventories.containsKey(p)) return
 
-        val inv = inventories[p]!!
+//        val inv = inventories[p]!!
 
         for (slot in e.rawSlots) {
             if (slot >= p.openInventory.topInventory.size) continue
@@ -126,7 +125,7 @@ class InventoryService(plugin: GameToolsPlugin) : PluginService<GameToolsPlugin>
 
         if (!inventories.containsKey(p)) return
 
-        val inv = inventories[p]!!
+//        val inv = inventories[p]!!
     }
 
     @EventHandler(priority = EventPriority.LOW)
@@ -152,14 +151,14 @@ class InventoryService(plugin: GameToolsPlugin) : PluginService<GameToolsPlugin>
 
         if (!inventories.containsKey(p)) return
 
-        val inv = inventories[p]!!
+//        val inv = inventories[p]!!
 
         inventories.remove(p)
         contents.remove(p)
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    fun onPluginDisable(e: PluginDisableEvent?) {
+    fun onPluginDisable(@Suppress("UNUSED_PARAMETER") e: PluginDisableEvent) {
         inventories.forEach { (player, inv) -> inv.close(player) }
 
         inventories.clear()

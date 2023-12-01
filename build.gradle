@@ -4,6 +4,7 @@ plugins {
     id "io.papermc.paperweight.userdev" version "1.5.9"
     id "com.github.johnrengelman.shadow" version "8.1.1"
     id "org.jlleitschuh.gradle.ktlint" version "11.6.1"
+    id 'maven-publish'
 }
 
 group = 'io.zkz.mc'
@@ -76,4 +77,17 @@ processResources {
 
 kotlin {
     jvmToolchain(targetJavaVersion)
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/ZekNikZ-Minecraft-Addons/gametools"
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
