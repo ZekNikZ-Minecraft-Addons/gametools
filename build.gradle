@@ -80,6 +80,17 @@ kotlin {
 }
 
 publishing {
+    publications {
+        libraryJar(MavenPublication) {
+            artifact jar
+        }
+
+        shadowedJar(MavenPublication) {
+            artifactId "${project.name}-plugin"
+            artifact shadowJar
+        }
+    }
+
     repositories {
         maven {
             name = "GitHubPackages"
