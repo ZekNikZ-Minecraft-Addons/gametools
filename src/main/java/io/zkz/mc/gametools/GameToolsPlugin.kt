@@ -5,6 +5,7 @@ import org.bukkit.plugin.PluginManager
 
 class GameToolsPlugin : GTPlugin<GameToolsPlugin>() {
     override fun buildPluginDependentInjectables(pluginManager: PluginManager) {
+        // TODO: uncomment these when WorldEdit and WorldGuard support come back
 //        if (pluginManager.getPlugin("WorldEdit") != null) {
 //            logger.info("WorldEdit found, registering dependent services...")
 //            WorldEditService.markAsLoaded()
