@@ -3,3 +3,8 @@ version: '${version}'
 main: io.zkz.mc.gametools.GameToolsPlugin
 api-version: '${apiVersion}'
 authors: [ZekNikZ]
+depend:
+  - ProtocolLib
+softdepend:
+  - WorldEdit
+  - WorldGuard
