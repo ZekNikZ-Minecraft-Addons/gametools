@@ -69,7 +69,7 @@ class TextComponentArgument<C : Any> private constructor(
                 val stringReader = StringReader(stringJoiner.toString())
                 lastError = try {
                     val component: net.minecraft.network.chat.Component? =
-                        net.minecraft.network.chat.Component.Serializer.fromJson(stringReader)
+                        net.minecraft.network.chat.Component.Serializer.fromJson(stringReader.string)
                     return if (component == null) {
                         throw ERROR_INVALID_JSON.createWithContext(stringReader, "empty")
                     } else {

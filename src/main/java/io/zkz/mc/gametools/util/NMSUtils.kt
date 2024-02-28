@@ -8,9 +8,9 @@ import net.minecraft.world.level.block.state.BlockState
 import net.minecraft.world.phys.AABB
 import net.minecraft.world.phys.shapes.CollisionContext
 import net.minecraft.world.phys.shapes.VoxelShape
-import org.bukkit.craftbukkit.v1_20_R2.CraftWorld
-import org.bukkit.craftbukkit.v1_20_R2.block.CraftBlock
-import org.bukkit.craftbukkit.v1_20_R2.entity.CraftEntity
+import org.bukkit.craftbukkit.v1_20_R3.CraftWorld
+import org.bukkit.craftbukkit.v1_20_R3.block.CraftBlock
+import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity
 
 object NMSUtils {
     fun toNMS(entity: org.bukkit.entity.Entity): Entity {
