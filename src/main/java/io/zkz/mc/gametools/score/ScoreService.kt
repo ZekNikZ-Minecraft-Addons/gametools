@@ -47,7 +47,7 @@ class ScoreService(
             event(TeamEarnPointsEvent(playerTeam, entry))
         }
 
-        this.notifyObservers()
+        notifyObservers()
     }
 
     fun earnPoints(
@@ -88,7 +88,7 @@ class ScoreService(
             }
         }
 
-        this.notifyObservers()
+        notifyObservers()
     }
 
     fun earnPoints(
@@ -127,7 +127,7 @@ class ScoreService(
     // #region Remote Sync
     fun setEntries(entries: List<ScoreEntry>) {
         this.entries = entries.toMutableList()
-        this.notifyObservers()
+        notifyObservers()
     }
     // #endregion
 }
