@@ -102,15 +102,15 @@ object DefaultTeams : InjectionComponent {
 
     fun addAll() {
         try {
-            teamService.createTeam(GAME_MASTER, true)
-            teamService.createTeam(CASTER, true)
-            teamService.createTeam(SPECTATOR, true)
-            teamService.createTeam(BLUE, true)
-            teamService.createTeam(RED, true)
-            teamService.createTeam(GREEN, true)
-            teamService.createTeam(YELLOW, true)
-            teamService.createTeam(MAGENTA, true)
-            teamService.createTeam(AQUA, true)
+            teamService.createTeam(GAME_MASTER, suppressEvent = true)
+            teamService.createTeam(CASTER, suppressEvent = true)
+            teamService.createTeam(SPECTATOR, suppressEvent = true)
+            teamService.createTeam(BLUE, suppressEvent = true)
+            teamService.createTeam(RED, suppressEvent = true)
+            teamService.createTeam(GREEN, suppressEvent = true)
+            teamService.createTeam(YELLOW, suppressEvent = true)
+            teamService.createTeam(MAGENTA, suppressEvent = true)
+            teamService.createTeam(AQUA, suppressEvent = true)
         } catch (exception: TeamCreationException) {
             logger.log(Level.SEVERE, exception) { "Could not create default teams." }
         }

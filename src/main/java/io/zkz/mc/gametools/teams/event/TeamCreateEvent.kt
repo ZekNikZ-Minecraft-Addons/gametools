@@ -2,16 +2,18 @@ package io.zkz.mc.gametools.teams.event
 
 import io.zkz.mc.gametools.event.AbstractEvent
 import io.zkz.mc.gametools.teams.GameTeam
-import java.util.*
 
 class TeamCreateEvent : AbstractEvent {
+    val source: TeamEventSource
     val teams: List<GameTeam>
 
-    constructor(teams: Collection<GameTeam>) {
+    constructor(source: TeamEventSource, teams: Collection<GameTeam>) {
+        this.source = source
         this.teams = teams.toList()
     }
 
-    constructor(vararg teams: GameTeam) {
+    constructor(source: TeamEventSource, vararg teams: GameTeam) {
+        this.source = source
         this.teams = listOf(*teams)
     }
 }
