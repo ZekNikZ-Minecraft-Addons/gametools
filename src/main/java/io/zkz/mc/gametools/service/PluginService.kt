@@ -1,6 +1,8 @@
 package io.zkz.mc.gametools.service
 
 import io.zkz.mc.gametools.GTPlugin
+import io.zkz.mc.gametools.data.IDataManager
+import io.zkz.mc.gametools.data.IManagesData
 import io.zkz.mc.gametools.injection.InjectionComponent
 import org.bukkit.event.Listener
 
@@ -19,6 +21,11 @@ open class PluginService<T : GTPlugin<T>>(
         // Initialization
         setup()
 
+        // Load data
+        if (this is IManagesData) {
+            dataManagers.forEach(IDataManager::load)
+        }
+
         // onEnable callback
         onEnable()
 
@@ -31,5 +38,14 @@ open class PluginService<T : GTPlugin<T>>(
     fun cleanup() {
         // onDisable callback
         onDisable()
+
+        // Save data
+        if (this is IManagesData) {
+            dataManagers.forEach {
+                if (it.autoSave) {
+                    it.save()
+                }
+            }
+        }
     }
 }
