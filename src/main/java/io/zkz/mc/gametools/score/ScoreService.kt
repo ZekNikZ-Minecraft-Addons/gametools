@@ -2,6 +2,7 @@ package io.zkz.mc.gametools.score
 
 import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.event.event
+import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.teams.GameTeam
 import io.zkz.mc.gametools.teams.TeamService
@@ -11,6 +12,7 @@ import io.zkz.mc.gametools.util.observable.IObserver
 import org.bukkit.entity.Player
 import java.util.*
 
+@Injectable
 class ScoreService(
     plugin: GameToolsPlugin,
     private val constants: GTConstants,
