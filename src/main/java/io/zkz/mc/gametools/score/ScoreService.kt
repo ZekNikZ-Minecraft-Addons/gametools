@@ -1,6 +1,7 @@
 package io.zkz.mc.gametools.score
 
 import io.zkz.mc.gametools.GameToolsPlugin
+import io.zkz.mc.gametools.event.event
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.teams.GameTeam
 import io.zkz.mc.gametools.teams.TeamService
@@ -15,106 +16,101 @@ class ScoreService(
     private val constants: GTConstants,
     private val teamService: TeamService,
 ) : PluginService<GameToolsPlugin>(plugin), IObservable<ScoreService> {
-    private val entries: MutableList<ScoreEntry> = mutableListOf()
+    private var entries: MutableList<ScoreEntry> = mutableListOf()
+    var currentScoreMultiplier = 1.0
 
-    private val roundPlayerScores: MutableMap<UUID, Double> = mutableMapOf()
-    private val roundTeamScores: MutableMap<GameTeam?, Double> = mutableMapOf()
-
-    private val gamePlayerScores: MutableMap<UUID, Double> = mutableMapOf()
-    private val gameTeamScores: MutableMap<GameTeam?, Double> = mutableMapOf()
-
-    var multiplier = 1.0
-
-    fun earnPoints(playerId: UUID, reason: String, points: Double, roundIndex: Int, gameId: String? = null) {
+    // #region Earn Points
+    fun earnPoints(
+        playerId: UUID,
+        reason: String,
+        points: Double,
+        teamId: String? = null,
+        roundIndex: Int? = null,
+        gameId: String? = null,
+    ) {
+        val playerTeam = teamService.getTeamOfPlayer(playerId)
         val entry = ScoreEntry(
             playerId,
+            teamId ?: playerTeam?.id,
             gameId ?: constants.gameId,
             roundIndex,
             reason,
             points,
-            multiplier,
+            currentScoreMultiplier,
         )
         entries.add(entry)
 
-        // Player score
-        roundPlayerScores.merge(
-            playerId,
-            entry.totalPoints,
-        ) { a, b -> a + b }
-        gamePlayerScores.merge(
-            playerId,
-            entry.totalPoints,
-        ) { a, b -> a + b }
+        event(PlayerEarnPointsEvent(entry))
+        if (playerTeam != null) {
+            event(TeamEarnPointsEvent(playerTeam, entry))
+        }
 
-        // Team score
-        val team: GameTeam? = teamService.getTeamOfPlayer(playerId)
-        roundTeamScores.merge(
-            team,
-            entry.totalPoints,
-        ) { a, b -> a + b }
-        gameTeamScores.merge(
-            team,
-            entry.totalPoints,
-        ) { a, b -> a + b }
         this.notifyObservers()
     }
 
-    fun earnPoints(player: Player, reason: String, points: Double, roundIndex: Int, gameId: String? = null) {
-        this.earnPoints(player.uniqueId, reason, points, roundIndex, gameId)
+    fun earnPoints(
+        player: Player,
+        reason: String,
+        points: Double,
+        team: GameTeam? = null,
+        roundIndex: Int? = null,
+        gameId: String? = null,
+    ) {
+        earnPoints(player.uniqueId, reason, points, team?.id, roundIndex, gameId)
     }
 
-    fun earnPointsUUID(playerIds: Collection<UUID>, reason: String, points: Double, roundIndex: Int, gameId: String? = null) {
-        playerIds.forEach { this.earnPoints(it, reason, points, roundIndex, gameId) }
+    fun earnPoints(
+        playerIds: Collection<UUID>,
+        reason: String,
+        points: Double,
+        teamId: String?,
+        roundIndex: Int? = null,
+        gameId: String? = null,
+    ) {
+        playerIds.forEach {
+            val playerTeam = teamService.getTeamOfPlayer(it)
+            val entry = ScoreEntry(
+                it,
+                teamId ?: teamService.getTeamOfPlayer(it)?.id,
+                gameId ?: constants.gameId,
+                roundIndex,
+                reason,
+                points,
+                currentScoreMultiplier,
+            )
+            entries.add(entry)
+
+            event(PlayerEarnPointsEvent(entry))
+            if (playerTeam != null) {
+                event(TeamEarnPointsEvent(playerTeam, entry))
+            }
+        }
+
+        this.notifyObservers()
     }
 
-    fun earnPoints(players: Collection<Player>, reason: String, points: Double, roundIndex: Int, gameId: String? = null) {
-        players.forEach { this.earnPoints(it, reason, points, roundIndex, gameId) }
+    fun earnPoints(
+        players: Collection<Player>,
+        reason: String,
+        points: Double,
+        team: GameTeam? = null,
+        roundIndex: Int? = null,
+        gameId: String? = null,
+    ) {
+        earnPoints(players.map { it.uniqueId }, reason, points, team?.id, roundIndex, gameId)
     }
+    // #endregion
 
-    val roundPlayerScoreSummary: Map<UUID, Double>
-        get() = roundPlayerScores
+    // #region Score Queries
+    val allEntries
+        get() = entries.toList()
 
-    fun getRoundEntries(player: Player, roundIndex: Int, gameId: String? = null): List<ScoreEntry> {
-        return entries
-            .filter { it.minigame == (gameId ?: constants.gameId) }
-            .filter { it.round == roundIndex }
-            .filter { it.playerId == player.uniqueId }
+    fun query(): ScoreQuery {
+        return ScoreQuery()
     }
+    // #endregion
 
-    fun getRoundTeamMemberScoreSummary(team: GameTeam?, roundIndex: Int, gameId: String? = null): Map<UUID, Double> {
-        return entries
-            .asSequence()
-            .filter { it.minigame == (gameId ?: constants.gameId) }
-            .filter { it.round == roundIndex }
-            .filter { teamService.getTeamOfPlayer(it.playerId) === team }
-            .groupingBy { it.playerId }
-            .fold(0.0) { acc, it -> acc + it.totalPoints }
-    }
-
-    fun getGameEntries(player: Player, gameId: String? = null): List<ScoreEntry> {
-        return entries
-            .asSequence()
-            .filter { it.minigame == (gameId ?: constants.gameId) }
-            .filter { it.playerId == player.uniqueId }
-            .toList()
-    }
-
-    fun getGameTeamMemberScores(team: GameTeam?, gameId: String? = null): Map<UUID, Double> {
-        return entries
-            .asSequence()
-            .filter { it.minigame == (gameId ?: constants.gameId) }
-            .filter { teamService.getTeamOfPlayer(it.playerId) === team }
-            .groupingBy { it.playerId }
-            .fold(0.0) { acc, it -> acc + it.totalPoints }
-    }
-
-    val eventTeamScores: Map<GameTeam?, Double>
-        get() = entries
-            .asSequence()
-            .filter { teamService.getTeamOfPlayer(it.playerId) != null }
-            .groupingBy { teamService.getTeamOfPlayer(it.playerId) }
-            .fold(0.0) { acc, it -> acc + it.totalPoints }
-
+    // #region IObservable Implementation
     override val listeners: MutableList<IObserver<ScoreService>> = mutableListOf()
 
     override fun addListener(observer: IObserver<ScoreService>) {
@@ -124,16 +120,12 @@ class ScoreService(
     override fun removeListener(observer: IObserver<ScoreService>) {
         listeners.remove(observer)
     }
+    // #endregion
 
-    fun resetRoundScores(teams: Collection<GameTeam?>) {
-        roundPlayerScores.clear()
-        roundTeamScores.clear()
-        teams.forEach { roundTeamScores[it] = 0.0 }
+    // #region Remote Sync
+    fun setEntries(entries: List<ScoreEntry>) {
+        this.entries = entries.toMutableList()
+        this.notifyObservers()
     }
-
-    fun resetGameScores(teams: Collection<GameTeam?>) {
-        gamePlayerScores.clear()
-        gameTeamScores.clear()
-        teams.forEach { gameTeamScores[it] = 0.0 }
-    }
+    // #endregion
 }
