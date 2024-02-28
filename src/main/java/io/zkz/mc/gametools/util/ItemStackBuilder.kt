@@ -1,11 +1,9 @@
 package io.zkz.mc.gametools.util
 
+import com.destroystokyo.paper.Namespaced
 import net.kyori.adventure.text.Component
-import net.minecraft.nbt.ListTag
-import net.minecraft.nbt.StringTag
 import org.bukkit.Material
 import org.bukkit.OfflinePlayer
-import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack
 import org.bukkit.enchantments.Enchantment
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
@@ -25,8 +23,8 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
     private var name: Component? = null
     private var unbreakable: Boolean? = null
     private var damage: Int? = null
-    private val canPlaceOn: MutableList<Material> = mutableListOf()
-    private val canBreak: MutableList<Material> = mutableListOf()
+    private val canPlaceOn: MutableSet<Namespaced> = mutableSetOf()
+    private val canBreak: MutableSet<Namespaced> = mutableSetOf()
 
     init {
         this.stack = stack.clone()
@@ -37,7 +35,8 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
                 lore.addAll(it.lore()!!)
             }
 
-            // TODO: copy CanPlaceOn and CanBreak
+            canPlaceOn.addAll(it.placeableKeys)
+            canBreak.addAll(it.destroyableKeys)
         }
     }
 
@@ -140,17 +139,27 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
     }
 
     fun canPlaceOn(vararg materials: Material): ItemStackBuilder {
-        canPlaceOn.addAll(listOf(*materials))
+        canPlaceOn.addAll(materials.map { it.key })
+        return this
+    }
+
+    fun canPlaceOn(vararg materials: Namespaced): ItemStackBuilder {
+        canPlaceOn.addAll(materials)
         return this
     }
 
     fun canBreak(vararg materials: Material): ItemStackBuilder {
-        canBreak.addAll(listOf(*materials))
+        canBreak.addAll(materials.map { it.key })
+        return this
+    }
+
+    fun canBreak(vararg materials: Namespaced): ItemStackBuilder {
+        canBreak.addAll(materials)
         return this
     }
 
     fun build(): ItemStack {
-        var result: ItemStack = stack.clone()
+        val result: ItemStack = stack.clone()
         val meta: ItemMeta = result.itemMeta
         if (name != null) {
             meta.displayName(name)
@@ -164,23 +173,13 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
         if (damage != null) {
             (meta as Damageable).damage = damage!!
         }
-        result.setItemMeta(meta)
-        if (canPlaceOn.isNotEmpty() || canBreak.isNotEmpty()) {
-            val nmsStack = CraftItemStack.asNMSCopy(result)
-            val tag = nmsStack.getOrCreateTag()
-            if (canPlaceOn.isNotEmpty()) {
-                val canPlaceOnTag = ListTag()
-                canPlaceOn.forEach { canPlaceOnTag.add(StringTag.valueOf(it.getKey().toString())) }
-                tag.put("CanPlaceOn", canPlaceOnTag)
-            }
-            if (canBreak.isNotEmpty()) {
-                val canBreakTag = ListTag()
-                canBreak.forEach { canBreakTag.add(StringTag.valueOf(it.getKey().toString())) }
-                tag.put("CanDestroy", canBreakTag)
-            }
-            nmsStack.setTag(tag)
-            result = CraftItemStack.asBukkitCopy(nmsStack)
+        if (canPlaceOn.isNotEmpty()) {
+            meta.setPlaceableKeys(canPlaceOn)
         }
+        if (canBreak.isNotEmpty()) {
+            meta.setDestroyableKeys(canBreak)
+        }
+        result.setItemMeta(meta)
         return result
     }
 

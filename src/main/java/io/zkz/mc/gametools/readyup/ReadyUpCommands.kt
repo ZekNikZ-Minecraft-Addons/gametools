@@ -20,6 +20,7 @@ object ReadyUpCommands : CommandRegistry() {
     private val PERM_READY_BASE = permission("gametools.ready", "Ready up", PermissionDefault.TRUE)
     private val PERM_READY_STATUS = permission("gametools.ready.status", "See the ready status of the game")
     private val PERM_READY_UNDO = permission("gametools.ready.undo", "Undo the ready up of a player")
+    private val PERM_READY_TEST = permission("gametools.ready.test", "Test the ready up functionality")
 
     private val readyUpService by inject<ReadyUpService>()
 
@@ -95,9 +96,9 @@ object ReadyUpCommands : CommandRegistry() {
         )
 
         // Test
-        // TODO: remove
         registry.registerCommand(
             builder.literal("test")
+                .permission(PERM_READY_TEST.name)
                 .handler {
                     runNow {
                         readyUpService.waitForReady(
