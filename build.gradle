@@ -43,8 +43,8 @@ dependencies {
 
     implementation "org.reflections:reflections:${reflectionsVersion}"
 
-    implementation "cloud.commandframework:cloud-paper:${cloudCommandFrameworkVersion}"
-    implementation "cloud.commandframework:cloud-minecraft-extras:${cloudCommandFrameworkVersion}"
+    api "cloud.commandframework:cloud-paper:${cloudCommandFrameworkVersion}"
+    api "cloud.commandframework:cloud-minecraft-extras:${cloudCommandFrameworkVersion}"
 
     compileOnly "com.comphenix.protocol:ProtocolLib:${protocolLibVersion}"
 }
@@ -81,17 +81,7 @@ kotlin {
 
 publishing {
     publications {
-        apiJar(MavenPublication) {
-            artifact jar
-        }
-
-        shadowedJar(MavenPublication) {
-            artifactId "${project.name}-shadow"
-            artifact shadowJar
-        }
-
-        pluginJar(MavenPublication) {
-            artifactId "${project.name}-plugin"
+        libraryJar(MavenPublication) {
             from components.java
         }
     }
