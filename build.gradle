@@ -21,7 +21,7 @@ ext {
     cloudCommandFrameworkVersion = '1.8.4'
 
     // Plugins
-    protocolLibVersion = '5.1.0'
+    protocolLibVersion = '5.2.0-SNAPSHOT'
 
     // MC
     apiVersion = '1.20'
@@ -65,7 +65,7 @@ tasks.withType(JavaCompile).configureEach {
 processResources {
     def props = [
             version: version,
-            name: name,
+            name: project.name,
             apiVersion: apiVersion
     ]
     inputs.properties props
@@ -81,13 +81,18 @@ kotlin {
 
 publishing {
     publications {
-        libraryJar(MavenPublication) {
+        apiJar(MavenPublication) {
             artifact jar
         }
 
         shadowedJar(MavenPublication) {
-            artifactId "${project.name}-plugin"
+            artifactId "${project.name}-shadow"
             artifact shadowJar
+        }
+
+        pluginJar(MavenPublication) {
+            artifactId "${project.name}-plugin"
+            from components.java
         }
     }
 
@@ -101,4 +106,8 @@ publishing {
             }
         }
     }
+}
+
+tasks.assemble {
+    dependsOn(reobfJar)
 }
