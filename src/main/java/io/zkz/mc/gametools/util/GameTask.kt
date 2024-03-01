@@ -4,7 +4,7 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import org.bukkit.scheduler.BukkitTask
 
-abstract class GameTask protected constructor(private val delay: Long, period: Long?) : BukkitRunnable() {
+abstract class GameTask protected constructor(private val delay: Long, period: Long? = null) : BukkitRunnable() {
     private val internalTaskId: Long = nextInternalTaskId++
     private val isRepeating: Boolean
     private val period: Long
@@ -32,7 +32,7 @@ abstract class GameTask protected constructor(private val delay: Long, period: L
 
     @Synchronized
     @Throws(IllegalStateException::class)
-    fun cancel(@Suppress("UNUSED_PARAMETER") removeReference: Boolean) {
+    open fun cancel(removeReference: Boolean) {
         super.cancel()
         this.task = null
     }

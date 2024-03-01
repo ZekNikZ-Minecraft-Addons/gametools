@@ -104,7 +104,7 @@ class ScoreboardService(
         }
     }
 
-    private val allScoreboards: Set<GameScoreboard>
+    val allScoreboards: Set<GameScoreboard>
         get() {
             val scoreboards: MutableSet<GameScoreboard> = HashSet()
             if (globalScoreboard != null) {
