@@ -1,9 +1,12 @@
 package io.zkz.mc.gametools.util
 
 import org.reflections.Reflections
-import org.reflections.scanners.Scanners.TypesAnnotated
+import org.reflections.util.ConfigurationBuilder
 import java.io.IOException
+import java.util.logging.Logger
 import kotlin.reflect.KClass
+
+private val logger = Logger.getLogger("injection")
 
 /**
  * Scans all classes accessible from given class loader which belong
@@ -22,12 +25,11 @@ import kotlin.reflect.KClass
 fun findClassesAnnotatedWith(
     classLoader: ClassLoader,
     packageName: String,
-    vararg annotationClass: KClass<out Annotation>,
+    annotationClass: KClass<out Annotation>,
 ): List<KClass<*>> {
-    println("Looking for classes in package $packageName annotated with ${annotationClass.map { it.qualifiedName }.joinToString(" & ")} from loader ${classLoader.name}")
-    return Reflections(packageName).get(
-        TypesAnnotated.with(annotationClass.map { it.java }.toSet()).asClass<Any>(classLoader),
-    ).map { println("Found ${it.canonicalName}"); it.kotlin }
+    logger.info("Looking for classes in package $packageName annotated with ${annotationClass.qualifiedName} from loader ${classLoader.name}")
+    return Reflections(ConfigurationBuilder().forPackage(packageName, classLoader)).getTypesAnnotatedWith(annotationClass.java)
+        .map { logger.fine("Found ${it.canonicalName}"); it.kotlin }
 }
 
 // @Throws(ClassNotFoundException::class, IOException::class)

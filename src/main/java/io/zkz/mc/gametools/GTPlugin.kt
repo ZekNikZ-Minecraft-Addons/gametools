@@ -22,12 +22,14 @@ import org.bukkit.plugin.java.JavaPlugin
 import java.io.InputStream
 import java.util.concurrent.TimeUnit
 import java.util.function.Function
+import java.util.logging.Logger
 
 abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
     lateinit var commandManager: BukkitCommandManager<CommandSender>
         private set
     lateinit var commandConfirmationManager: CommandConfirmationManager<CommandSender>
         private set
+    private val injectionLogger = Logger.getLogger("injection")
 
     override fun onEnable() {
         // Setup command handlers
@@ -169,7 +171,7 @@ abstract class GTPlugin<T : GTPlugin<T>> : JavaPlugin(), InjectionComponent {
     private fun findInjectables() {
         val injectables = findClassesAnnotatedWith(classLoader, this::class.java.packageName, Injectable::class)
         injectables.forEach { clazz ->
-            println("Found injectable class ${clazz.qualifiedName}")
+            injectionLogger.fine("Found injectable class ${clazz.qualifiedName}")
 
             val injectionKey: String = (clazz.annotations.first { it is Injectable } as Injectable).key
 

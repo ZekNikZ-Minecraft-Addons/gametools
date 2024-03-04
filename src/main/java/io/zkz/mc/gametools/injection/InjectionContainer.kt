@@ -1,5 +1,6 @@
 package io.zkz.mc.gametools.injection
 
+import java.util.logging.Logger
 import kotlin.reflect.KClass
 import kotlin.reflect.full.isSubclassOf
 import kotlin.reflect.full.primaryConstructor
@@ -8,6 +9,8 @@ class InjectionContainer {
     companion object {
         @JvmField
         val globalContainer = InjectionContainer()
+
+        private val logger = Logger.getLogger("injection")
     }
 
     val nodes: MutableMap<InjectionKey, InjectionNode<*>> = mutableMapOf()
@@ -127,7 +130,11 @@ class InjectionContainer {
 
         fun subclassOf(clazz: KClass<*>) {
             queries.add {
-                it.key.type.isSubclassOf(clazz)
+                val res = it.key.type.isSubclassOf(clazz)
+                if (!res) {
+                    logger.fine("${it.key.type.simpleName} is NOT a subclass of ${clazz.simpleName}")
+                }
+                res
             }
         }
 
@@ -150,7 +157,11 @@ class InjectionContainer {
 
         fun declaredInPackage(packageName: String) {
             queries.add {
-                it.key.type.java.packageName.startsWith(packageName)
+                val res = it.key.type.java.packageName.startsWith(packageName)
+                if (!res) {
+                    logger.fine("${it.key.type.qualifiedName} is NOT in package $packageName")
+                }
+                res
             }
         }
 
@@ -168,9 +179,13 @@ class InjectionContainer {
 
         internal fun performQuery(nodes: Map<InjectionKey, InjectionNode<*>>): List<Any> {
             nodes.forEach {
-                println("Found node ${it.key}")
+                logger.fine("Found node ${it.key}")
             }
-            return nodes.filter { entry -> queries.all { query -> query(entry) } }.values.map { it.value }
+            return nodes.filter { entry ->
+                queries.all { query ->
+                    query(entry)
+                }
+            }.values.map { it.value }
         }
     }
 }
