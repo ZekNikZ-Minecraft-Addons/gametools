@@ -1,0 +1,3 @@
+[submodule "src/main/resources/NegativeSpaceFont"]
+	path = src/main/resources/NegativeSpaceFont
+	url = https://github.com/AmberWat/NegativeSpaceFont.git
