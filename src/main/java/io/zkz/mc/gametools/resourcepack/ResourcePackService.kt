@@ -12,6 +12,7 @@ import io.zkz.mc.gametools.util.HashUtils.sha1Hash
 import org.bukkit.event.EventHandler
 import org.bukkit.event.player.PlayerJoinEvent
 import java.net.InetSocketAddress
+import java.net.NetworkInterface
 import java.nio.file.Files
 import java.nio.file.Path
 import java.util.concurrent.Executors
@@ -23,7 +24,7 @@ class ResourcePackService(
     plugin: GameToolsPlugin,
 ) : PluginService<GameToolsPlugin>(plugin), IManagesData {
     private val dataManager = jsonSynced<ResourcePackConfig>(plugin.dataFolder.toPath().resolve("resourcepack.json")) {
-        ResourcePackConfig("localhost", null)
+        ResourcePackConfig(null, null)
     }
     private val config by dataManager
 
@@ -104,12 +105,39 @@ class ResourcePackService(
     @EventHandler
     private fun onPlayerJoin(event: PlayerJoinEvent) {
         if (enabled && packPath != null && packHash != null) {
+            val address = config.httpHostAddress ?: discoverHttpHostAddress()
+
             event.player.setResourcePack(
-                "http://${config.httpHostAddress}:${httpServer!!.address.port}/resource-pack",
+                "http://$address:${httpServer!!.address.port}/resource-pack",
                 packHash!!,
                 true,
             )
         }
+    }
+
+    private fun discoverHttpHostAddress(): String {
+        val addresses = NetworkInterface.getNetworkInterfaces().toList()
+            .flatMap { ni ->
+                ni.inetAddresses.toList().map { inet ->
+                    inet.hostAddress
+                }
+            }
+
+        // Find an external IP address
+        for (address in addresses) {
+            if (!address.startsWith("192.168") && !address.startsWith("169.254") && !address.startsWith("127.0.0")) {
+                return address
+            }
+        }
+
+        // Find a local address
+        for (address in addresses) {
+            if (address.startsWith("192.168")) {
+                return address
+            }
+        }
+
+        return "localhost"
     }
 
     override val dataManagers: List<IDataManager> = listOf(dataManager)

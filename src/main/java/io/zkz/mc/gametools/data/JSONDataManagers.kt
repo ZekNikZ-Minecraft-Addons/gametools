@@ -13,7 +13,7 @@ open class JSONDataManager<T : Any>(
     val onSave: () -> T,
     override val autoSave: Boolean = true,
 ) : IDataManager {
-    private val gson = GsonBuilder().create()
+    private val gson = GsonBuilder().serializeNulls().create()
 
     override fun load() {
         if (!Files.exists(filePath)) {
