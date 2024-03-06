@@ -113,8 +113,16 @@ class GameScoreboard internal constructor(initialTitle: Component) {
         team.suffix(component)
     }
 
-    fun getEntry(id: String): ScoreboardEntry? {
+    fun getRawEntry(id: String): ScoreboardEntry? {
         return mappedEntries[id]
+    }
+
+    inline fun <reified T : ScoreboardEntry> getEntry(id: String): T? {
+        val entry = getRawEntry(id)
+        if (entry is T) {
+            return entry
+        }
+        return null
     }
 
     private fun setupTeam(pos: Int) {

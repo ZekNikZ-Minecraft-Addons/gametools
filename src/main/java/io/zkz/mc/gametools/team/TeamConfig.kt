@@ -1,4 +1,4 @@
-package io.zkz.mc.gametools.teams
+package io.zkz.mc.gametools.team
 
 import org.bukkit.scoreboard.Team.OptionStatus
 

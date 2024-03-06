@@ -1,4 +1,4 @@
-package io.zkz.mc.gametools.teams
+package io.zkz.mc.gametools.team
 
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.inject

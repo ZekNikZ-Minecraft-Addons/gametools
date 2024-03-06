@@ -1,4 +1,4 @@
-package io.zkz.mc.gametools.teams.event
+package io.zkz.mc.gametools.team.event
 
 enum class TeamEventSource {
     TEAM_API,

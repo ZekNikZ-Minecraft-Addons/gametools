@@ -3,9 +3,12 @@ package io.zkz.mc.gametools.score
 import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.event.event
 import io.zkz.mc.gametools.injection.Injectable
+import io.zkz.mc.gametools.score.event.MultiplierChangeEvent
+import io.zkz.mc.gametools.score.event.PlayerEarnPointsEvent
+import io.zkz.mc.gametools.score.event.TeamEarnPointsEvent
 import io.zkz.mc.gametools.service.PluginService
-import io.zkz.mc.gametools.teams.GameTeam
-import io.zkz.mc.gametools.teams.TeamService
+import io.zkz.mc.gametools.team.GameTeam
+import io.zkz.mc.gametools.team.TeamService
 import io.zkz.mc.gametools.util.GTConstants
 import io.zkz.mc.gametools.util.observable.IObservable
 import io.zkz.mc.gametools.util.observable.IObserver
@@ -20,6 +23,11 @@ class ScoreService(
 ) : PluginService<GameToolsPlugin>(plugin), IObservable<ScoreService> {
     private var entries: MutableList<ScoreEntry> = mutableListOf()
     var currentScoreMultiplier = 1.0
+        set(newVal) {
+            val oldVal = field
+            field = newVal
+            event(MultiplierChangeEvent(oldVal, newVal))
+        }
 
     // #region Earn Points
     fun earnPoints(

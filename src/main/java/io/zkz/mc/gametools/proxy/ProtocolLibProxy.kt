@@ -9,8 +9,8 @@ import com.comphenix.protocol.events.PacketEvent
 import com.comphenix.protocol.wrappers.WrappedWatchableObject
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.teams.GameTeam
-import io.zkz.mc.gametools.teams.TeamService
+import io.zkz.mc.gametools.team.GameTeam
+import io.zkz.mc.gametools.team.TeamService
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.entity.Player

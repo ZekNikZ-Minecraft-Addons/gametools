@@ -1,15 +1,15 @@
-package io.zkz.mc.gametools.teams
+package io.zkz.mc.gametools.team
 
 import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.event.event
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.get
 import io.zkz.mc.gametools.service.PluginService
-import io.zkz.mc.gametools.teams.event.TeamChangeEvent
-import io.zkz.mc.gametools.teams.event.TeamConfigChangeEvent
-import io.zkz.mc.gametools.teams.event.TeamCreateEvent
-import io.zkz.mc.gametools.teams.event.TeamEventSource
-import io.zkz.mc.gametools.teams.event.TeamRemoveEvent
+import io.zkz.mc.gametools.team.event.TeamChangeEvent
+import io.zkz.mc.gametools.team.event.TeamConfigChangeEvent
+import io.zkz.mc.gametools.team.event.TeamCreateEvent
+import io.zkz.mc.gametools.team.event.TeamEventSource
+import io.zkz.mc.gametools.team.event.TeamRemoveEvent
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Team.OptionStatus

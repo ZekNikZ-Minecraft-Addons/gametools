@@ -12,8 +12,8 @@ import cloud.commandframework.exceptions.parsing.NoInputProvidedException
 import cloud.commandframework.exceptions.parsing.ParserException
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.teams.GameTeam
-import io.zkz.mc.gametools.teams.TeamService
+import io.zkz.mc.gametools.team.GameTeam
+import io.zkz.mc.gametools.team.TeamService
 import java.io.Serial
 import java.util.*
 import java.util.function.BiFunction
@@ -145,16 +145,16 @@ class TeamArgument<C : Any> private constructor(
         /**
          * Create a new required command component with a default value
          *
-         * @param name        Component name
-         * @param defaultUUID Default uuid
-         * @param <C>         Command sender type
+         * @param name          Component name
+         * @param defaultTeamId Default team id
+         * @param <C>           Command sender type
          * @return Created component
          </C> */
         fun <C : Any> optional(
             name: String,
-            defaultUUID: UUID,
+            defaultTeamId: String,
         ): CommandArgument<C, GameTeam> {
-            return builder<C>(name).asOptionalWithDefault(defaultUUID.toString()).build()
+            return builder<C>(name).asOptionalWithDefault(defaultTeamId).build()
         }
     }
 }

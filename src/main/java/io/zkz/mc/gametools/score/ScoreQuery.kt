@@ -2,8 +2,8 @@ package io.zkz.mc.gametools.score
 
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.teams.GameTeam
-import io.zkz.mc.gametools.teams.TeamService
+import io.zkz.mc.gametools.team.GameTeam
+import io.zkz.mc.gametools.team.TeamService
 import io.zkz.mc.gametools.util.GTConstants
 import org.bukkit.entity.Player
 import java.util.*

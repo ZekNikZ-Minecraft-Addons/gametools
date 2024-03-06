@@ -1,11 +1,11 @@
-package io.zkz.mc.gametools.teams
+package io.zkz.mc.gametools.team
 
 import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.InjectionComponent
 import io.zkz.mc.gametools.injection.get
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.teams.TeamService.TeamCreationException
+import io.zkz.mc.gametools.team.TeamService.TeamCreationException
 import io.zkz.mc.gametools.util.GTColor
 import io.zkz.mc.gametools.util.mm
 import net.kyori.adventure.text.format.NamedTextColor

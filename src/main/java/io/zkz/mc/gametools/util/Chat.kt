@@ -40,4 +40,8 @@ object Chat {
     fun sendMessage(type: ChatType, message: Component?) {
         sendMessage(Audience.audience(Bukkit.getOnlinePlayers()), type, message)
     }
+
+    fun sendEmptyLine(audience: Audience? = null) {
+        sendMessage(audience ?: Audience.audience(Bukkit.getOnlinePlayers()), mm(" "))
+    }
 }

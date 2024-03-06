@@ -1,4 +1,4 @@
-package io.zkz.mc.gametools.teams
+package io.zkz.mc.gametools.team
 
 import cloud.commandframework.bukkit.arguments.selector.MultiplePlayerSelector
 import cloud.commandframework.bukkit.parsers.selector.MultiplePlayerSelectorArgument
@@ -7,7 +7,7 @@ import io.zkz.mc.gametools.command.CommandRegistryConnector
 import io.zkz.mc.gametools.command.arguments.TeamArgument
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.injection.inject
-import io.zkz.mc.gametools.teams.TeamService.TeamCreationException
+import io.zkz.mc.gametools.team.TeamService.TeamCreationException
 import io.zkz.mc.gametools.util.BukkitUtils.runNow
 import io.zkz.mc.gametools.util.Chat
 import io.zkz.mc.gametools.util.ChatType

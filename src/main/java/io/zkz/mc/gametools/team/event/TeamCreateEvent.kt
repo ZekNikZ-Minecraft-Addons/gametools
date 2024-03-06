@@ -1,9 +1,9 @@
-package io.zkz.mc.gametools.teams.event
+package io.zkz.mc.gametools.team.event
 
 import io.zkz.mc.gametools.event.AbstractEvent
-import io.zkz.mc.gametools.teams.GameTeam
+import io.zkz.mc.gametools.team.GameTeam
 
-class TeamRemoveEvent : AbstractEvent {
+class TeamCreateEvent : AbstractEvent {
     val source: TeamEventSource
     val teams: List<GameTeam>
 
