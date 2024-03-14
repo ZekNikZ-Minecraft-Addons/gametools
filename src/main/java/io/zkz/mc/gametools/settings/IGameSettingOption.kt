@@ -4,7 +4,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 
 interface IGameSettingOption {
-    val name: Component
+    val label: Component
 
     val description: Component?
 

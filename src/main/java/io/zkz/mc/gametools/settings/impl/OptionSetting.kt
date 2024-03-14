@@ -8,18 +8,18 @@ import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-open class OptionSetting<T>(
+open class OptionSetting<T: Any>(
     override val name: Component,
     override val description: Component?,
     override val displayIcon: ItemStack,
-    private val options: List<Option<T>>,
+    protected val options: List<Option<T>>,
     val defaultValue: () -> Option<T>,
     initialValue: () -> Option<T> = defaultValue,
 ) : AbstractObservable<IGameSetting<T>>(), IGameSetting<T> {
     @JvmRecord
     data class Option<T>(
         val value: T,
-        override val name: Component,
+        override val label: Component,
         override val description: Component?,
         override val icon: ItemStack,
     ) : IGameSettingOption
@@ -44,7 +44,7 @@ open class OptionSetting<T>(
     override val optionIcon: ItemStack
         get() {
             return ISB.fromStack(options[index].icon) {
-                name(options[index].name)
+                name(options[index].label)
 
                 if (options[index].description != null) {
                     lore(options[index].description!!)
@@ -88,7 +88,7 @@ open class OptionSetting<T>(
             val actualOptions = options().map {
                 Option(
                     it,
-                    it.name,
+                    it.label,
                     it.description,
                     it.icon,
                 )

@@ -13,7 +13,7 @@ import org.bukkit.entity.Player
 
 @Injectable
 object GameSettingsCommands : CommandRegistry() {
-    private val PERM_CHANGE_SETTINGS = permission("gametools.settings.change", "Change game settings")
+    val PERM_CHANGE_SETTINGS = permission("gametools.settings.change", "Change game settings")
 
     private val gameSettingsService by inject<GameSettingsService>()
 
@@ -22,7 +22,6 @@ object GameSettingsCommands : CommandRegistry() {
 
         registry.registerCommand(
             builder
-                .permission(PERM_CHANGE_SETTINGS.name)
                 .handler { cmd ->
                     val sender: CommandSender = cmd.sender
 

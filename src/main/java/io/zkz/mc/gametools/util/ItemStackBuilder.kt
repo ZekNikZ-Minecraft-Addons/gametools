@@ -41,7 +41,7 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
     }
 
     fun material(material: Material): ItemStackBuilder {
-        stack.setType(material)
+        stack.type = material
         return this
     }
 
@@ -184,15 +184,29 @@ class ItemStackBuilder private constructor(stack: ItemStack) {
     }
 
     companion object {
-        fun fromMaterial(material: Material, buildItemStack: ItemStackBuilder.() -> Unit): ItemStack {
+        fun fromMaterial(material: Material, buildItemStack: (ItemStackBuilder.() -> Unit)? = null): ItemStack {
             val builder = ItemStackBuilder(ItemStack(material))
-            builder.buildItemStack()
+            buildItemStack?.let { builder.it() }
             return builder.build()
         }
 
-        fun fromStack(stack: ItemStack, buildItemStack: ItemStackBuilder.() -> Unit): ItemStack {
+        fun fromMaterial(material: Material, amount: Int, buildItemStack: (ItemStackBuilder.() -> Unit)? = null): ItemStack {
+            val builder = ItemStackBuilder(ItemStack(material))
+            builder.amount(amount)
+            buildItemStack?.let { builder.it() }
+            return builder.build()
+        }
+
+        fun fromStack(stack: ItemStack, buildItemStack: (ItemStackBuilder.() -> Unit)? = null): ItemStack {
             val builder = ItemStackBuilder(stack)
-            builder.buildItemStack()
+            buildItemStack?.let { builder.it() }
+            return builder.build()
+        }
+
+        fun fromStack(stack: ItemStack, amount: Int, buildItemStack: (ItemStackBuilder.() -> Unit)? = null): ItemStack {
+            val builder = ItemStackBuilder(stack)
+            builder.amount(amount)
+            buildItemStack?.let { builder.it() }
             return builder.build()
         }
     }

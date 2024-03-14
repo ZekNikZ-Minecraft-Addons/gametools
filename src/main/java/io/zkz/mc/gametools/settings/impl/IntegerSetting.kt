@@ -45,9 +45,8 @@ class IntegerSetting(
         value += step() * 5
     }
 
-    companion object {
-        private fun clamp(value: Int, min: Int, max: Int): Int {
-            return max(min(value, max), min)
-        }
-    }
+}
+
+private fun clamp(value: Int, min: Int, max: Int): Int {
+    return max(min(value, max), min)
 }

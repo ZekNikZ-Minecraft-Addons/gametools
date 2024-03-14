@@ -5,7 +5,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
 
-interface IGameSetting<T> : IObservable<IGameSetting<T>> {
+interface IGameSetting<T : Any> : IObservable<IGameSetting<T>> {
     val name: Component
 
     val description: Component?
@@ -43,5 +43,18 @@ interface IGameSetting<T> : IObservable<IGameSetting<T>> {
 
     fun handleShiftRightClick() {
         handleRightClick()
+    }
+
+    val valueAsJson: Any
+        get() = value
+
+    fun setFromJson(newValue: Any?) {
+        if (newValue == null) {
+            resetToDefaultValue()
+            return
+        }
+
+        @Suppress("UNCHECKED_CAST")
+        value = newValue as T
     }
 }

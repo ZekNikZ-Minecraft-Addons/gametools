@@ -3,7 +3,9 @@ package io.zkz.mc.gametools.settings
 import io.zkz.mc.gametools.GameToolsPlugin
 import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.service.PluginService
+import io.zkz.mc.gametools.settings.GameSettingsCommands.PERM_CHANGE_SETTINGS
 import io.zkz.mc.gametools.settings.menu.GameSettingsMenu
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 @Injectable
@@ -19,8 +21,7 @@ class GameSettingsService(plugin: GameToolsPlugin) : PluginService<GameToolsPlug
     }
 
     fun openMenu(player: Player) {
-        // TODO: permissions & categories
-        GameSettingsMenu.create(withCategories = true, canEdit = true)
+        GameSettingsMenu.create(withCategories = _settings.size > 1, canEdit = player.hasPermission(PERM_CHANGE_SETTINGS.name))
             .open(player)
     }
 
@@ -90,11 +91,4 @@ class GameSettingsService(plugin: GameToolsPlugin) : PluginService<GameToolsPlug
 //            );
 //        }
     }
-
-    // TODO: settings types
-
-    // TODO:  - long
-    // TODO:  - double
-    // TODO:  - float
-    // TODO:  - string
 }
