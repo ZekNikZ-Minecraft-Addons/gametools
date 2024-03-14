@@ -9,7 +9,8 @@ interface IObservable<T : IObservable<T>> {
 
     fun notifyObservers() {
         listeners.forEach {
-            it.handleChanged(this)
+            @Suppress("UNCHECKED_CAST")
+            it.handleChanged(this as T)
         }
     }
 }
