@@ -8,7 +8,7 @@ import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemFlag
 import org.bukkit.inventory.ItemStack
 
-open class OptionSetting<T: Any>(
+open class OptionSetting<T : Any>(
     override val name: Component,
     override val description: Component?,
     override val displayIcon: ItemStack,

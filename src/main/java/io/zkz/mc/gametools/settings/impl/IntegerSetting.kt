@@ -44,7 +44,6 @@ class IntegerSetting(
     override fun handleShiftRightClick() {
         value += step() * 5
     }
-
 }
 
 private fun clamp(value: Int, min: Int, max: Int): Int {

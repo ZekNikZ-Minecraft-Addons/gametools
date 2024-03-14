@@ -4,7 +4,6 @@ import io.zkz.mc.gametools.settings.IGameSettingOption
 import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 
-
 class EnumSetting<E : Enum<E>>(
     name: Component,
     description: Component?,

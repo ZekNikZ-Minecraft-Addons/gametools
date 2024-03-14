@@ -5,7 +5,6 @@ import io.zkz.mc.gametools.injection.Injectable
 import io.zkz.mc.gametools.service.PluginService
 import io.zkz.mc.gametools.settings.GameSettingsCommands.PERM_CHANGE_SETTINGS
 import io.zkz.mc.gametools.settings.menu.GameSettingsMenu
-import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 @Injectable
