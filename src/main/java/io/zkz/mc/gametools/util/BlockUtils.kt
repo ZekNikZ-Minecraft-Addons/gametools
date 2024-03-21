@@ -1,7 +1,9 @@
 package io.zkz.mc.gametools.util
 
 import net.kyori.adventure.text.format.NamedTextColor
+import org.bukkit.Location
 import org.bukkit.Material
+import org.bukkit.World
 
 object BlockUtils {
     private val WOOLS = setOf(
@@ -154,4 +156,20 @@ object BlockUtils {
     fun isLeaves(type: Material): Boolean {
         return LEAVES.contains(type)
     }
+}
+
+fun getHighestBlock(world: World, x: Int, z: Int): Location {
+    var i = 255
+    while (i > 0) {
+        if (Location(world, x.toDouble(), i.toDouble(), z.toDouble()).block.type != Material.AIR) {
+            return Location(
+                world,
+                x.toDouble(),
+                i.toDouble(),
+                z.toDouble(),
+            )
+        }
+        i--
+    }
+    return Location(world, x.toDouble(), 0.0, z.toDouble())
 }

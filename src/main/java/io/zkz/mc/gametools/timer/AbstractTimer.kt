@@ -165,11 +165,6 @@ abstract class AbstractTimer protected constructor(
         tempHooks.remove(hookId)
     }
 
-    fun scheduleEvent(delay: Long, hook: () -> Unit) {
-        events.add(ScheduledEvent(delay) { hook() })
-        eventsCompleted.add(false)
-    }
-
     fun scheduleEvent(delay: Long, hook: (currentTime: Long) -> Unit) {
         events.add(ScheduledEvent(delay, hook))
         eventsCompleted.add(false)

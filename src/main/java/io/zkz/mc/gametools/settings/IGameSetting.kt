@@ -4,6 +4,7 @@ import io.zkz.mc.gametools.util.observable.IObservable
 import net.kyori.adventure.text.Component
 import org.bukkit.event.inventory.ClickType
 import org.bukkit.inventory.ItemStack
+import kotlin.reflect.KProperty
 
 interface IGameSetting<T : Any> : IObservable<IGameSetting<T>> {
     val name: Component
@@ -57,4 +58,6 @@ interface IGameSetting<T : Any> : IObservable<IGameSetting<T>> {
         @Suppress("UNCHECKED_CAST")
         value = newValue as T
     }
+
+    operator fun getValue(thisRef: Any?, property: KProperty<*>): T = value
 }
